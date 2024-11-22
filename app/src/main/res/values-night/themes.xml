@@ -5,6 +5,7 @@
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:textColor">@color/textColor</item>
+        <item name="android:fontFamily">@font/poppins</item>
     </style>
 
     <style name="Theme.SampahIn" parent="Base.Theme.SampahIn" />

@@ -8,4 +8,5 @@
     <color name="bottomBarActiveColor">#66CC33</color>
     <color name="bottomBarInactiveColor">#888888</color>
     <color name="textColor">#FFFFFF</color>
+    <color name="textColorSecondary">#999999</color>
 </resources>
