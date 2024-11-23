@@ -78,7 +78,7 @@ class ScanFragment : Fragment() {
 
 
                             binding.tvResult.text = displayResult
-                            binding.tvInference.text = "Selesai dalam $inferenceTime ms"
+                            binding.tvInference.text = "$inferenceTime ms"
 
                         } else {
                             showToast("No results found")

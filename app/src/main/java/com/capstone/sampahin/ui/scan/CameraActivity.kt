@@ -1,5 +1,6 @@
 package com.capstone.sampahin.ui.scan
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
@@ -16,37 +18,45 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import com.capstone.sampahin.R
 import com.capstone.sampahin.databinding.ActivityCameraBinding
 import com.capstone.sampahin.ui.createCustomTempFile
 
 class CameraActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCameraBinding
-
-    private var imageCapture : ImageCapture? = null
-
+    private var imageCapture: ImageCapture? = null
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+    private lateinit var scanningLine: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        scanningLine = findViewById(R.id.scanningLine)
+
+        animateScanningLine()
+
         binding.switchCamera.setOnClickListener {
-            cameraSelector = if (cameraSelector.equals(CameraSelector.DEFAULT_BACK_CAMERA)) CameraSelector.DEFAULT_FRONT_CAMERA
-            else CameraSelector.DEFAULT_BACK_CAMERA
+            cameraSelector = if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
+                CameraSelector.DEFAULT_FRONT_CAMERA
+            } else {
+                CameraSelector.DEFAULT_BACK_CAMERA
+            }
             startCamera()
         }
+
         binding.captureImage.setOnClickListener { takePhoto() }
     }
 
     private val orientationEventListener by lazy {
-        object : OrientationEventListener(this){
+        object : OrientationEventListener(this) {
             override fun onOrientationChanged(orientation: Int) {
-                if (orientation == ORIENTATION_UNKNOWN){
+                if (orientation == ORIENTATION_UNKNOWN) {
                     return
                 }
 
-                val rotation = when (orientation){
+                val rotation = when (orientation) {
                     in 45 until 135 -> Surface.ROTATION_270
                     in 135 until 225 -> Surface.ROTATION_180
                     in 225 until 315 -> Surface.ROTATION_90
@@ -67,7 +77,7 @@ class CameraActivity : AppCompatActivity() {
         orientationEventListener.disable()
     }
 
-    public override fun onResume() {
+    override fun onResume() {
         super.onResume()
         hideSystemUI()
         startCamera()
@@ -94,9 +104,9 @@ class CameraActivity : AppCompatActivity() {
                     preview,
                     imageCapture
                 )
-            }catch (exc : Exception){
-                Toast.makeText(this, "Gagal munculkan kamera", Toast.LENGTH_SHORT).show()
-                Log.e(TAG, "start Camera : ${exc.message}")
+            } catch (exc: Exception) {
+                Toast.makeText(this, "Failed to start camera", Toast.LENGTH_SHORT).show()
+                Log.e(TAG, "start Camera: ${exc.message}")
             }
         }, ContextCompat.getMainExecutor(this))
     }
@@ -111,7 +121,7 @@ class CameraActivity : AppCompatActivity() {
         imageCapture.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(this),
-            object : ImageCapture.OnImageSavedCallback{
+            object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val intent = Intent()
                     intent.putExtra(EXTRA_CAMERAX_IMAGE, output.savedUri.toString())
@@ -120,12 +130,11 @@ class CameraActivity : AppCompatActivity() {
                 }
 
                 override fun onError(exc: ImageCaptureException) {
-                    Toast.makeText(this@CameraActivity, "Gagal mengambil gambar", Toast.LENGTH_SHORT).show()
-                    Log.e(TAG, "onError : ${exc.message}")
+                    Toast.makeText(this@CameraActivity, "Failed to take picture", Toast.LENGTH_SHORT).show()
+                    Log.e(TAG, "onError: ${exc.message}")
                 }
             }
         )
-
     }
 
     private fun hideSystemUI() {
@@ -141,7 +150,16 @@ class CameraActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    companion object{
+    private fun animateScanningLine() {
+        val scanBoxHeight = resources.displayMetrics.heightPixels
+        val moveDown = ObjectAnimator.ofFloat(scanningLine, "translationY", 0f, scanBoxHeight.toFloat())
+        moveDown.duration = 2000
+        moveDown.repeatCount = ObjectAnimator.INFINITE
+        moveDown.repeatMode = ObjectAnimator.REVERSE
+        moveDown.start()
+    }
+
+    companion object {
         private const val TAG = "CameraActivity"
         const val EXTRA_CAMERAX_IMAGE = "CameraX Image"
         const val CAMERAX_RESULT = 200
