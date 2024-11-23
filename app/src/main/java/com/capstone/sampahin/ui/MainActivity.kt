@@ -2,6 +2,7 @@ package com.capstone.sampahin.ui
 
 import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.View
 import android.view.Window
 import androidx.activity.enableEdgeToEdge
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -57,4 +58,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
+
+
 }
