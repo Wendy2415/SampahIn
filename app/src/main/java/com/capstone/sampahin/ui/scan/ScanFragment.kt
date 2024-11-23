@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.capstone.sampahin.R
 import com.capstone.sampahin.databinding.FragmentScanBinding
 import com.capstone.sampahin.ui.scan.CameraActivity.Companion.CAMERAX_RESULT
@@ -25,9 +26,8 @@ class ScanFragment : Fragment() {
 
     private var _binding: FragmentScanBinding? = null
     private val binding get() = _binding!!
-    private var currentImageUri: Uri? = null
     private lateinit var imageClassifierHelper: ImageClassifierHelper
-
+    private val viewModel : ScanViewModel by viewModels()
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -89,7 +89,7 @@ class ScanFragment : Fragment() {
 
         binding.galleryButton.setOnClickListener { startGallery() }
         binding.analyzeButton.setOnClickListener {
-            currentImageUri?.let {
+            viewModel.currentImageUri?.let {
                 analyzeImage(it)
             } ?: run {
                 showToast(getString(R.string.empty_image_warning))
@@ -111,7 +111,7 @@ class ScanFragment : Fragment() {
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode == CAMERAX_RESULT) {
-            currentImageUri = it.data?.getStringExtra(CameraActivity.EXTRA_CAMERAX_IMAGE)?.toUri()
+            viewModel.currentImageUri = it.data?.getStringExtra(CameraActivity.EXTRA_CAMERAX_IMAGE)?.toUri()
             showImage()
         }
     }
@@ -120,7 +120,7 @@ class ScanFragment : Fragment() {
         ActivityResultContracts.PickVisualMedia()
     ) { uri: Uri? ->
         if (uri != null) {
-            currentImageUri = uri
+            viewModel.currentImageUri = uri
             showImage()
         } else {
             Log.d("Photo Picker", "No media selected")
@@ -128,7 +128,7 @@ class ScanFragment : Fragment() {
     }
 
     private fun showImage() {
-        currentImageUri?.let {
+        viewModel.currentImageUri?.let {
             Log.d("Image URI", "showImage: $it")
             binding.previewImageView.setImageURI(it)
         }
