@@ -33,9 +33,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_sign_up_title"
-        tools:ignore="TextFields" />
+        tools:ignore="TextFields"
+        android:drawablePadding="10dp"
+        android:drawableStart="@drawable/baseline_person_24"/>
 
-    <EditText
+    <com.wendy.storyapps.customview.EmailEditText
         android:id="@+id/et_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -49,7 +51,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_name"
-        tools:ignore="Autofill" />
+        tools:ignore="Autofill"
+        android:drawablePadding="10dp"/>
 
     <RadioGroup
         android:id="@+id/radioGroupGender"
@@ -81,7 +84,7 @@
             android:padding="12dp" />
     </RadioGroup>
 
-    <EditText
+    <com.capstone.sampahin.ui.customview.PasswordEditText
         android:id="@+id/et_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -96,9 +99,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/radioGroupGender"
         app:layout_constraintBottom_toTopOf="@id/et_password2"
+        android:drawablePadding="10dp"
         tools:ignore="Autofill" />
 
-    <EditText
+    <com.capstone.sampahin.ui.customview.PasswordConfirmEditText
         android:id="@+id/et_password2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -112,6 +116,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_password"
+        android:drawablePadding="10dp"
         tools:ignore="Autofill" />
 
     <Button
