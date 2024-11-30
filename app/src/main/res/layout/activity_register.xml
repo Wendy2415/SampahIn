@@ -19,105 +19,103 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_back" />
 
-    <EditText
-        android:id="@+id/et_name"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etl_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/input_background"
-        android:hint="@string/hint_name"
-        android:importantForAutofill="no"
-        android:padding="12dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:errorEnabled="true"
         app:layout_constraintTop_toBottomOf="@id/tv_sign_up_title"
-        tools:ignore="TextFields"
-        android:drawablePadding="10dp"
-        android:drawableStart="@drawable/baseline_person_24"/>
+        app:hintEnabled="false">
 
-    <com.wendy.storyapps.customview.EmailEditText
-        android:id="@+id/et_email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/input_background"
-        android:hint="@string/hint_email"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_name"
-        tools:ignore="Autofill"
-        android:drawablePadding="10dp"/>
-
-    <RadioGroup
-        android:id="@+id/radioGroupGender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_email">
-
-        <RadioButton
-            android:id="@+id/rb_male"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/male"
-            android:textSize="18sp"
-            android:layout_marginEnd="40dp"
-            android:padding="12dp" />
+            android:hint="@string/hint_name"
+            android:importantForAutofill="no"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/baseline_person_24"/>
 
-        <RadioButton
-            android:id="@+id/rb_female"
-            android:layout_width="wrap_content"
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etl_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etl_name"
+        app:hintEnabled="false"
+        app:errorEnabled="true">
+
+        <com.capstone.sampahin.ui.customview.EmailEditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/female"
-            android:textSize="18sp"
-            android:padding="12dp" />
-    </RadioGroup>
+            android:hint="@string/hint_email"
+            android:inputType="textEmailAddress"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/baseline_email_24"/>
 
-    <com.capstone.sampahin.ui.customview.PasswordEditText
-        android:id="@+id/et_password"
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etl_password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/input_background"
-        android:hint="@string/hint_password"
-        android:inputType="textPassword"
-        android:padding="12dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioGroupGender"
-        app:layout_constraintBottom_toTopOf="@id/et_password2"
-        android:drawablePadding="10dp"
-        tools:ignore="Autofill" />
+        app:layout_constraintTop_toBottomOf="@id/etl_email"
+        app:hintEnabled="false"
+        app:errorEnabled="true">
 
-    <com.capstone.sampahin.ui.customview.PasswordConfirmEditText
-        android:id="@+id/et_password2"
+        <com.capstone.sampahin.ui.customview.PasswordEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:hint="@string/hint_password"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/baseline_lock_24"
+            android:drawableEnd="@drawable/baseline_visibility_off_24" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etl_password_confirm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/input_background"
-        android:hint="@string/confirm_password"
-        android:inputType="textPassword"
-        android:padding="12dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_password"
-        android:drawablePadding="10dp"
-        tools:ignore="Autofill" />
+        app:layout_constraintTop_toBottomOf="@id/etl_password"
+        app:hintEnabled="false"
+        app:errorEnabled="true">
+
+        <com.capstone.sampahin.ui.customview.PasswordEditText
+            android:id="@+id/et_password_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:importantForAutofill="no"
+            android:hint="@string/confirm_password"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/baseline_lock_24"
+            android:drawableEnd="@drawable/baseline_visibility_off_24" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <Button
         android:id="@+id/btn_sign_up"
@@ -131,7 +129,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_password2" />
+        app:layout_constraintTop_toBottomOf="@id/etl_password_confirm" />
 
     <TextView
         android:id="@+id/tv_sign_up_alternative"
@@ -175,6 +173,16 @@
         app:layout_constraintHorizontal_bias="0.0"
         android:elevation="10dp" />
 
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

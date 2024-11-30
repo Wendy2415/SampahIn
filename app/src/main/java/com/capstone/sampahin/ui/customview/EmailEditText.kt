@@ -1,4 +1,4 @@
-package com.wendy.storyapps.customview
+package com.capstone.sampahin.ui.customview
 
 import android.annotation.SuppressLint
 import android.content.Context

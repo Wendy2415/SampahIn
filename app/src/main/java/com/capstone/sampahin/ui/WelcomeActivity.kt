@@ -6,16 +6,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.Window
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.capstone.sampahin.R
+import androidx.lifecycle.lifecycleScope
+import com.capstone.sampahin.data.UidPreferences
 import com.capstone.sampahin.databinding.ActivityWelcomeBinding
+import com.capstone.sampahin.ui.login.LoginActivity
+import com.capstone.sampahin.ui.register.RegisterActivity
+import kotlinx.coroutines.launch
 
 class WelcomeActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityWelcomeBinding
+    private lateinit var uidPref : UidPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +27,16 @@ class WelcomeActivity : AppCompatActivity() {
 
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        uidPref = UidPreferences(this)
+
+        lifecycleScope.launch {
+            if (!uidPref.getUid().isNullOrEmpty()) {
+                val intent = Intent(this@WelcomeActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
 
         binding.registerbtn.setOnClickListener{
             val intent = Intent(this, RegisterActivity::class.java)

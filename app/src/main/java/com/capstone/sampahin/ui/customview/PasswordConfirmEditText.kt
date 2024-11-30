@@ -27,7 +27,7 @@ class PasswordConfirmEditText @JvmOverloads constructor(
     private fun setupPasswordEditText() {
         inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
 
-        hint = context.getString(R.string.confirm_password)
+        hint = context.getString(R.string.password)
 
         visibilityIcon = ContextCompat.getDrawable(context, R.drawable.baseline_visibility_24)
         visibilityOffIcon = ContextCompat.getDrawable(context, R.drawable.baseline_visibility_off_24)
