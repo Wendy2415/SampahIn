@@ -15,7 +15,24 @@
         android:id="@+id/navigation_chat"
         android:name="com.capstone.sampahin.ui.chat.ChatFragment"
         android:label="@string/chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_chat" >
+        <argument
+            android:name="topicID"
+            app:argType="integer" />
+        <argument
+            android:name="topicTitle"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/topicsFragment"
+        android:name="com.capstone.sampahin.ui.chat.TopicsFragment"
+        android:label="Topic Questions"
+        tools:layout="@layout/fragment_topics" >
+        <action
+            android:id="@+id/action_topicsFragment_to_chatFragment"
+            app:destination="@id/navigation_chat" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_maps"

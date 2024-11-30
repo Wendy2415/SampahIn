@@ -12,7 +12,7 @@
     <string name="create_an_account">Create an account</string>
     <string name="login">Login</string>
     <string name="welcome">Welcome</string>
-    <string name="welcome_desc">Manage waster for better life!</string>
+    <string name="welcome_desc">Manage waste for better life!</string>
     <string name="sign_up_title">Sign up with your email</string>
     <string name="login_title">Login with your email</string>
     <string name="hint_name">Name</string>
@@ -34,4 +34,37 @@
     <string name="result">Result</string>
     <string name="camera">Camera</string>
     <string name="time">Time</string>
+    <string name="hello_user">Hello, User!</string>
+    <string name="lets_recycle">Let\'s Recycle</string>
+    <string name="category">Category</string>
+    <string name="points">Points</string>
+    <string name="hint_message">Message Sammy…</string>
+    <string name="appbar_sammy">Sammy</string>
+    <string name="back">Back</string>
+    <string name="send">Send</string>
+    <string name="tv_suggestion_label">You may want to ask:</string>
+    <string name="tv_inference_time_label">Inference Time: %d ms</string>
+    <string name="ib_send_label">Send Button</string>
+    <string name="tv_pick_topic_label">Choose a topic.</string>
+    <string name="tiet_question_label">Type in your question…</string>
+    <string name="fragment_qa_title">%s - Bert QA</string>
+    <string name="text_home_maps">Find the nearest collector location!</string>
+
+    <string-array name="data_photo">
+        <item>@drawable/paper</item>
+        <item>@drawable/plastic</item>
+        <item>@drawable/metal</item>
+        <item>@drawable/glass</item>
+        <item>@drawable/wood</item>
+        <item>@drawable/box</item>
+    </string-array>
+
+    <string-array name="data_name">
+        <item>Paper</item>
+        <item>Plastic</item>
+        <item>Metal</item>
+        <item>Glass</item>
+        <item>Wood</item>
+        <item>Box</item>
+    </string-array>
 </resources>
