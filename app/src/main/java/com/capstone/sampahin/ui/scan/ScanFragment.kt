@@ -76,9 +76,17 @@ class ScanFragment : Fragment() {
                                     NumberFormat.getPercentInstance().format(topCategory.score)
                                         .trim()
 
-
                             binding.tvResult.text = displayResult
                             binding.tvInference.text = "$inferenceTime ms"
+
+                            binding.root.post {
+                                val targetY = binding.Result.top
+                                binding.scrollView.scrollTo(0, targetY)
+                            }
+
+                            binding.tvResult.visibility = View.VISIBLE
+                            binding.tvInference.visibility = View.VISIBLE
+                            binding.descResult.visibility = View.VISIBLE
 
                         } else {
                             showToast("No results found")

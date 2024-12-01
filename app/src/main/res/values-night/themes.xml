@@ -10,11 +10,28 @@
 
 
     <style name="ButtonGreen">
-        <item name="android:background">@drawable/btn_stroke</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:backgroundTint">@color/primaryColor</item>
         <item name="android:textColor">@color/backgroundColor</item>
-        <item name="android:textSize">17sp</item>
     </style>
 
+    <style name="ButtonWhite">
+        <item name="cornerRadius">8dp</item>
+        <item name="android:backgroundTint">@color/backgroundColor</item>
+        <item name="android:textColor">@color/primaryColor</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="strokeColor">@color/primaryColor</item>
+    </style>
+
+    <style name="ActiveTextStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
+
+    <style name="InactiveTextStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/textColor</item>
+    </style>
 
 
     <style name="Theme.SampahIn" parent="Base.Theme.SampahIn" />

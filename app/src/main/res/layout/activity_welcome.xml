@@ -8,9 +8,9 @@
     tools:context=".ui.WelcomeActivity">
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/registerbtn"
-        style="@style/ButtonGreen"
+        style="@style/ButtonWhite"
         android:alpha="0"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/loginbtn"
         style="@style/ButtonGreen"
         android:layout_width="0dp"
