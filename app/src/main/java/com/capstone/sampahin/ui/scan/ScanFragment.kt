@@ -72,12 +72,37 @@ class ScanFragment : Fragment() {
                         if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
                             val topCategory = it[0].categories.first()
 
-                            val displayResult = "${topCategory.label} " +
+                            val translatedLabel = when (topCategory.label.lowercase()) {
+                                "besi" -> getString(R.string.besi)
+                                "daun" -> getString(R.string.daun)
+                                "kaca" -> getString(R.string.kaca)
+                                "kardus" -> getString(R.string.kardus)
+                                "kayu" -> getString(R.string.kayu)
+                                "kertas" -> getString(R.string.kertas)
+                                "plastik" -> getString(R.string.plastik)
+                                "sisa makanan" -> getString(R.string.sisa_makanan)
+                                else -> topCategory.label
+                            }
+
+                            val displayResult = "$translatedLabel " +
                                     NumberFormat.getPercentInstance().format(topCategory.score)
                                         .trim()
 
                             binding.tvResult.text = displayResult
-                            binding.tvInference.text = "$inferenceTime ms"
+                            binding.tvInference.text = getString(R.string.tv_inference_time_label, inferenceTime)
+
+                            val description = when (topCategory.label.lowercase()) {
+                                "besi" -> getString(R.string.desc_besi)
+                                "daun" -> getString(R.string.desc_daun)
+                                "kaca" -> getString(R.string.desc_kaca)
+                                "kardus" -> getString(R.string.desc_kardus)
+                                "kayu" -> getString(R.string.desc_kayu)
+                                "kertas" -> getString(R.string.desc_kertas)
+                                "plastik" -> getString(R.string.desc_plastik)
+                                "sisa makanan" -> getString(R.string.desc_sisa_makanan)
+                                else -> ""
+                            }
+
 
                             binding.root.post {
                                 val targetY = binding.Result.top
@@ -87,6 +112,8 @@ class ScanFragment : Fragment() {
                             binding.tvResult.visibility = View.VISIBLE
                             binding.tvInference.visibility = View.VISIBLE
                             binding.descResult.visibility = View.VISIBLE
+                            binding.descResult.text = description
+                            binding.Result.visibility = View.VISIBLE
 
                         } else {
                             showToast("No results found")

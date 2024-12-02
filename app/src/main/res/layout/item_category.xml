@@ -17,7 +17,7 @@
         android:layout_height="120dp"
         android:padding="8dp"
         tools:ignore="ContentDescription"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         tools:src="@tools:sample/avatars" />
 
     <TextView
