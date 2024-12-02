@@ -14,7 +14,7 @@
     <string name="create_an_account">Create an account</string>
     <string name="login">Login</string>
     <string name="welcome">Welcome</string>
-    <string name="welcome_desc">Manage waster for better life!</string>
+    <string name="welcome_desc">Manage waste for better life!</string>
     <string name="sign_up_title">Sign up with your email</string>
     <string name="login_title">Login with your email</string>
     <string name="hint_name">Name</string>
@@ -46,4 +46,35 @@
     <string name="sign_out">Sign Out</string>
     <string name="logout_success">Logout Success</string>
     <string name="descResult">Waste Paper refers to paper that has already been used or discarded paper that no longer has immediate value in its original form and is typically thrown away or recycled. This type of paper can come from various sources such as newspapers, office paper, packaging, and other types of paper used in daily life.\n\nCharacteristics of Waste Paper:\nSources: Waste paper comes from various sources, including households, offices, industries, and schools. Some types of waste paper are easier to recycle, such as newspaper or printed paper, while others may be more difficult due to contamination with ink or chemicals.\n\nTypes of Waste Paper:\n\nNewspaper: Paper used for newspapers and other printed media.\nPrinted and Writing Paper: Usually paper used in offices, such as printer paper or regular writing paper.\nPackaging Paper: Paper used for wrapping or packaging products, such as cardboard and carton packaging.\nCoated Paper: Paper made with a layer of plastic or other materials that make it more difficult to recycle.\nRecycling: Waste paper is a primary raw material in the paper recycling industry. By recycling used paper, we can reduce the need for trees, save energy, and reduce the amount of waste going into landfills (landfills). The recycling process involves collecting, sorting, washing, and processing the paper to make new paper products.\n\nBenefits of Recycling Waste Paper:\n\nReduces Deforestation: Recycling helps reduce the need for wood to make new paper, thereby lowering deforestation.\nSaves Energy: The process of making paper from recycled materials uses less energy compared to producing new paper from natural raw materials.\nReduces Waste: Recycling waste paper helps reduce the amount of paper being disposed of in landfills.\nReuse of Waste Paper:\n\nNew Paper Products: After being processed, waste paper can be used to make various types of new paper products such as office paper, cardboard, and other paper products.\nNon-Paper Products: Some types of waste paper are also used in making insulation materials, building materials, and other non-paper products.\nOverall, effective waste paper management through recycling plays an important role in sustainability and environmental preservation.\n\n\n\n\n\n\n</string>
+    <string name="hello_user">Hello, User!</string>
+    <string name="lets_recycle">Let\'s Recycle</string>
+    <string name="category">Category</string>
+    <string name="points">Points</string>
+    <string name="hint_message">Message Sammy…</string>
+    <string name="appbar_sammy">Sammy</string>
+    <string name="back">Back</string>
+    <string name="send">Send</string>
+    <string name="tv_suggestion_label">You may want to ask:</string>
+    <string name="tv_inference_time_label">Inference Time: %d ms</string>
+    <string name="ib_send_label">Send Button</string>
+    <string name="tv_pick_topic_label">Choose a topic.</string>
+    <string name="tiet_question_label">Type in your question…</string>
+    <string name="fragment_qa_title">%s - Bert QA</string>
+    <string name="text_home_maps">Find the nearest collector location!</string>
+    <string-array name="data_photo">
+        <item>@drawable/paper</item>
+        <item>@drawable/plastic</item>
+        <item>@drawable/metal</item>
+        <item>@drawable/glass</item>
+        <item>@drawable/wood</item>
+        <item>@drawable/box</item>
+    </string-array>
+    <string-array name="data_name">
+        <item>Paper</item>
+        <item>Plastic</item>
+        <item>Metal</item>
+        <item>Glass</item>
+        <item>Wood</item>
+        <item>Box</item>
+    </string-array>
 </resources>
