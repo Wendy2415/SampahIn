@@ -26,6 +26,9 @@ class RegisterActivity : AppCompatActivity() {
 
         setupObserver()
         binding.btnSignUp.setOnClickListener { handleRegister() }
+        binding.buttonBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun handleRegister() {

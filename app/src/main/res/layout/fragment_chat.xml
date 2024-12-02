@@ -59,82 +59,87 @@
             android:layout_height="0dp"
             android:scrollbars="vertical"
             app:layout_constraintBottom_toTopOf="@id/bottomView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/topAppBarLayout"
             tools:listitem="@layout/item_message_local" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottomView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <TextView
-            android:id="@+id/tv_suggestion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tv_suggestion_label"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_questionSuggestions"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottomView"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            app:layout_constraintBottom_toTopOf="@id/til_question"
-            app:layout_constraintTop_toBottomOf="@id/tv_suggestion" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_question"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingStart="0dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="8dp"
-            app:boxCornerRadiusBottomEnd="40dp"
-            app:boxCornerRadiusBottomStart="40dp"
-            app:boxCornerRadiusTopEnd="40dp"
-            app:boxCornerRadiusTopStart="40dp"
-            app:boxStrokeColor="@color/black"
-            app:endIconMode="clear_text"
-            app:layout_constraintBottom_toTopOf="@id/tv_inferenceTime"
-            app:layout_constraintEnd_toStartOf="@id/ib_send"
+            android:layout_marginBottom="80dp"
+            android:background="@color/white"
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_question"
-                android:padding="13dp"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_suggestion"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/tiet_question_label"
-                android:inputType="text"
-                android:maxLines="3" />
+                android:text="@string/tv_suggestion_label"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_questionSuggestions"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                app:layout_constraintBottom_toTopOf="@id/til_question"
+                app:layout_constraintTop_toBottomOf="@id/tv_suggestion" />
 
-        <ImageButton
-            android:id="@+id/ib_send"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/baseline_circle_24"
-            android:contentDescription="@string/ib_send_label"
-            android:padding="10dp"
-            android:src="@drawable/baseline_send_24"
-            app:layout_constraintBottom_toBottomOf="@id/til_question"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/til_question" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_question"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="0dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
+                app:boxCornerRadiusBottomEnd="40dp"
+                app:boxCornerRadiusBottomStart="40dp"
+                app:boxCornerRadiusTopEnd="40dp"
+                app:boxCornerRadiusTopStart="40dp"
+                app:boxStrokeColor="@color/black"
+                app:endIconMode="clear_text"
+                app:layout_constraintBottom_toTopOf="@id/tv_inferenceTime"
+                app:layout_constraintEnd_toStartOf="@id/ib_send"
+                app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:id="@+id/tv_inferenceTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tiet_question"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/tiet_question_label"
+                    android:inputType="text"
+                    android:maxLines="3"
+                    android:padding="13dp" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageButton
+                android:id="@+id/ib_send"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@drawable/baseline_circle_24"
+                android:contentDescription="@string/ib_send_label"
+                android:padding="10dp"
+                android:src="@drawable/baseline_send_24"
+                app:layout_constraintBottom_toBottomOf="@id/til_question"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/til_question" />
+
+            <TextView
+                android:id="@+id/tv_inferenceTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar
             android:id="@+id/progressBar"

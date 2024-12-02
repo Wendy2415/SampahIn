@@ -82,4 +82,6 @@ dependencies {
     implementation(libs.tensorflow.lite.gpu)
     implementation(libs.tensorflow.lite.gpu.delegate.plugin)
 
+    implementation (libs.ucrop)
+
 }

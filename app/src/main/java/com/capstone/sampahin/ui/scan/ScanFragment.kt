@@ -19,7 +19,9 @@ import androidx.fragment.app.viewModels
 import com.capstone.sampahin.R
 import com.capstone.sampahin.databinding.FragmentScanBinding
 import com.capstone.sampahin.ui.scan.CameraActivity.Companion.CAMERAX_RESULT
+import com.yalantis.ucrop.UCrop
 import org.tensorflow.lite.task.vision.classifier.Classifications
+import java.io.File
 import java.text.NumberFormat
 
 class ScanFragment : Fragment() {
@@ -28,6 +30,8 @@ class ScanFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var imageClassifierHelper: ImageClassifierHelper
     private val viewModel : ScanViewModel by viewModels()
+
+
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -142,21 +146,27 @@ class ScanFragment : Fragment() {
         launcherIntentCameraX.launch(intent)
     }
 
+
     private val launcherIntentCameraX = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
         if (it.resultCode == CAMERAX_RESULT) {
             viewModel.currentImageUri = it.data?.getStringExtra(CameraActivity.EXTRA_CAMERAX_IMAGE)?.toUri()
+
+            viewModel.currentImageUri?.let { uri ->
+                startCrop(uri)
+            }
+
             showImage()
         }
     }
+
 
     private val launcherGallery = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()
     ) { uri: Uri? ->
         if (uri != null) {
-            viewModel.currentImageUri = uri
-            showImage()
+            startCrop(uri)
         } else {
             Log.d("Photo Picker", "No media selected")
         }
@@ -166,6 +176,28 @@ class ScanFragment : Fragment() {
         viewModel.currentImageUri?.let {
             Log.d("Image URI", "showImage: $it")
             binding.previewImageView.setImageURI(it)
+        }
+    }
+
+    private fun startCrop(uri: Uri) {
+        val time = System.currentTimeMillis()
+        val destinationUri = Uri.fromFile(File(requireContext().cacheDir, "cropped_image_$time.jpg"))
+        cropImageLauncher.launch(UCrop.of(uri,destinationUri).getIntent(requireContext()))
+    }
+
+    private val cropImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val resultUri = UCrop.getOutput(result.data!!)
+            resultUri?.let { uri ->
+                viewModel.currentImageUri = uri
+                showImage()
+            }
+        } else if (result.resultCode == UCrop.RESULT_ERROR) {
+            val cropError = UCrop.getError(result.data!!)
+            cropError?.let { error ->
+                error.printStackTrace()
+                showToast("Cropping failed: ${error.message}")
+            }
         }
     }
 
@@ -185,4 +217,20 @@ class ScanFragment : Fragment() {
     companion object{
         private const val REQUIRED_PERMISSION = android.Manifest.permission.CAMERA
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        viewModel.currentImageUri?.let {
+            outState.putString("imageUri", it.toString())
+        }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.getString("imageUri")?.let {
+            viewModel.currentImageUri = Uri.parse(it)
+            showImage()
+        }
+    }
+
 }

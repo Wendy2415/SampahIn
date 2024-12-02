@@ -25,6 +25,10 @@ class LoginActivity : AppCompatActivity() {
 
         setupAction()
         observeLoginResult()
+
+        binding.buttonBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun setupAction() {

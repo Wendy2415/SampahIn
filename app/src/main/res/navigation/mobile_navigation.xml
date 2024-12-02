@@ -25,7 +25,7 @@
     </fragment>
 
     <fragment
-        android:id="@+id/topicsFragment"
+        android:id="@+id/navigation_topics"
         android:name="com.capstone.sampahin.ui.chat.TopicsFragment"
         android:label="Topic Questions"
         tools:layout="@layout/fragment_topics" >

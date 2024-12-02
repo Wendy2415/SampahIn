@@ -27,6 +27,7 @@ androidxDatastorePreferences = "1.1.1"
 tensorflowLiteGpu = "2.9.0"
 tensorflowLiteGpuDelegatePlugin = "0.4.0"
 tensorflowLiteTaskText = "0.3.0"
+ucrop = "2.2.8"
 
 [libraries]
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCamera2" }
@@ -62,6 +63,7 @@ kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 tensorflow-lite-task-text = { module = "org.tensorflow:tensorflow-lite-task-text", version.ref = "tensorflowLiteTaskText" }
 tensorflow-lite-task-vision = { module = "org.tensorflow:tensorflow-lite-task-vision", version.ref = "tensorflowLiteSupport" }
+ucrop = { module = "com.github.yalantis:ucrop", version.ref = "ucrop" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
