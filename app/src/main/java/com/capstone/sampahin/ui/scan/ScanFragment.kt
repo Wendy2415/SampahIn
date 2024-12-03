@@ -16,19 +16,25 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.capstone.sampahin.R
+import com.capstone.sampahin.data.api.ApiConfig
 import com.capstone.sampahin.databinding.FragmentScanBinding
+import com.capstone.sampahin.ui.reduceFileImage
 import com.capstone.sampahin.ui.scan.CameraActivity.Companion.CAMERAX_RESULT
+import com.capstone.sampahin.ui.uriToFile
 import com.yalantis.ucrop.UCrop
-import org.tensorflow.lite.task.vision.classifier.Classifications
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import retrofit2.HttpException
 import java.io.File
-import java.text.NumberFormat
 
 class ScanFragment : Fragment() {
 
     private var _binding: FragmentScanBinding? = null
     private val binding get() = _binding!!
-    private lateinit var imageClassifierHelper: ImageClassifierHelper
     private val viewModel : ScanViewModel by viewModels()
 
 
@@ -64,76 +70,9 @@ class ScanFragment : Fragment() {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
         }
 
-        imageClassifierHelper = ImageClassifierHelper(
-            context = requireContext(),
-            classifierListener = object : ImageClassifierHelper.ClassifierListener {
-                override fun onError(error: String) {
-                    showToast(error)
-                }
-
-                override fun onResults(results: List<Classifications>?, inferenceTime: Long) {
-                    results?.let {
-                        if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
-                            val topCategory = it[0].categories.first()
-
-                            val translatedLabel = when (topCategory.label.lowercase()) {
-                                "besi" -> getString(R.string.besi)
-                                "daun" -> getString(R.string.daun)
-                                "kaca" -> getString(R.string.kaca)
-                                "kardus" -> getString(R.string.kardus)
-                                "kayu" -> getString(R.string.kayu)
-                                "kertas" -> getString(R.string.kertas)
-                                "plastik" -> getString(R.string.plastik)
-                                "sisa makanan" -> getString(R.string.sisa_makanan)
-                                else -> topCategory.label
-                            }
-
-                            val displayResult = "$translatedLabel " +
-                                    NumberFormat.getPercentInstance().format(topCategory.score)
-                                        .trim()
-
-                            binding.tvResult.text = displayResult
-                            binding.tvInference.text = getString(R.string.tv_inference_time_label, inferenceTime)
-
-                            val description = when (topCategory.label.lowercase()) {
-                                "besi" -> getString(R.string.desc_besi)
-                                "daun" -> getString(R.string.desc_daun)
-                                "kaca" -> getString(R.string.desc_kaca)
-                                "kardus" -> getString(R.string.desc_kardus)
-                                "kayu" -> getString(R.string.desc_kayu)
-                                "kertas" -> getString(R.string.desc_kertas)
-                                "plastik" -> getString(R.string.desc_plastik)
-                                "sisa makanan" -> getString(R.string.desc_sisa_makanan)
-                                else -> ""
-                            }
-
-
-                            binding.root.post {
-                                val targetY = binding.Result.top
-                                binding.scrollView.scrollTo(0, targetY)
-                            }
-
-                            binding.tvResult.visibility = View.VISIBLE
-                            binding.tvInference.visibility = View.VISIBLE
-                            binding.descResult.visibility = View.VISIBLE
-                            binding.descResult.text = description
-                            binding.Result.visibility = View.VISIBLE
-
-                        } else {
-                            showToast("No results found")
-                        }
-                    }
-                }
-            })
 
         binding.galleryButton.setOnClickListener { startGallery() }
-        binding.analyzeButton.setOnClickListener {
-            viewModel.currentImageUri?.let {
-                analyzeImage(it)
-            } ?: run {
-                showToast(getString(R.string.empty_image_warning))
-            }
-        }
+        binding.analyzeButton.setOnClickListener {uploadImage()}
         binding.btnCamera.setOnClickListener { startCameraX() }
     }
 
@@ -201,9 +140,88 @@ class ScanFragment : Fragment() {
         }
     }
 
-    private fun analyzeImage(uri: Uri) {
-        imageClassifierHelper.classifyStaticImage(uri)
+    private fun uploadImage() {
+        viewModel.currentImageUri?.let { uri ->
+            val imageFile = uriToFile(uri, requireContext()).reduceFileImage()
+            Log.d("Image File", "showImage: ${imageFile.path}")
+            showLoading(true)
+            val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
+            val multipartBody = MultipartBody.Part.createFormData(
+                "file",
+                imageFile.name,
+                requestImageFile
+            )
+            lifecycleScope.launch {
+                try {
+                    val apiService = ApiConfig.getMLApiService()
+                    val response = apiService.predict(multipartBody)
+
+                    val translatedLabel = translateLabel(response.predictedClass!!)
+                    val description = getDescription(response.predictedClass)
+
+                    with(binding) {
+                        tvResult.text = String.format(
+                            getString(R.string.result_label),
+                            translatedLabel,
+                            (response.confidence as Double) * 100
+                        )
+                        Result.visibility = View.VISIBLE
+                        tvResult.visibility = View.VISIBLE
+                        descResult.text = description
+                        descResult.visibility = View.VISIBLE
+                        tvInference.text = getString(R.string.tv_inference_time_label, 0) // Placeholder
+                    }
+
+                    binding.root.post {
+                        val targetY = binding.Result.top
+                        binding.scrollView.scrollTo(0, targetY)
+                    }
+
+                    showToast("Predicted class: $translatedLabel")
+                    showLoading(false)
+                } catch (e: HttpException) {
+                    val errorMessage = e.response()?.errorBody()?.string() ?: "HTTP error occurred"
+                    showToast(errorMessage)
+                    showLoading(false)
+                } catch (e: Exception) {
+                    showToast(e.message ?: "An unexpected error occurred")
+                    showLoading(false)
+                }
+            }
+        } ?: showToast(getString(R.string.empty_image_warning))
     }
+
+
+    private fun translateLabel(label: String): String {
+        return when (label.lowercase()) {
+            "besi" -> getString(R.string.besi)
+            "daun" -> getString(R.string.daun)
+            "kaca" -> getString(R.string.kaca)
+            "kardus" -> getString(R.string.kardus)
+            "kayu" -> getString(R.string.kayu)
+            "kertas" -> getString(R.string.kertas)
+            "plastik" -> getString(R.string.plastik)
+            "sisa makanan" -> getString(R.string.sisa_makanan)
+            else -> label
+        }
+    }
+
+
+    private fun getDescription(label: String): String {
+        return when (label.lowercase()) {
+            "besi" -> getString(R.string.desc_besi)
+            "daun" -> getString(R.string.desc_daun)
+            "kaca" -> getString(R.string.desc_kaca)
+            "kardus" -> getString(R.string.desc_kardus)
+            "kayu" -> getString(R.string.desc_kayu)
+            "kertas" -> getString(R.string.desc_kertas)
+            "plastik" -> getString(R.string.desc_plastik)
+            "sisa makanan" -> getString(R.string.desc_sisa_makanan)
+            else -> ""
+        }
+    }
+
+
 
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
@@ -216,6 +234,10 @@ class ScanFragment : Fragment() {
 
     companion object{
         private const val REQUIRED_PERMISSION = android.Manifest.permission.CAMERA
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

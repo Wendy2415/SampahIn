@@ -6,17 +6,28 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiConfig {
-    fun getApiService(): ApiService {
+
+    private fun createRetrofit(baseUrl: String): Retrofit {
         val loggingInterceptor =
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .build()
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://firebase-api-851479113294.asia-southeast2.run.app/")
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
+    }
+
+    fun getApiService(): ApiService {
+        val retrofit = createRetrofit("https://firebase-api-851479113294.asia-southeast2.run.app/")
         return retrofit.create(ApiService::class.java)
     }
+
+    fun getMLApiService(): MLApiService {
+        val retrofit = createRetrofit("https://backend-ml-2-dot-sampahin.et.r.appspot.com/")
+        return retrofit.create(MLApiService::class.java)
+    }
 }
+

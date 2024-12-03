@@ -95,6 +95,7 @@
     <string name="desc_kertas">Used paper refers to paper that has been used or discarded, which no longer has direct utility in its original form and is typically thrown away or recycled. Used paper can be recycled into various new paper products, reducing deforestation and saving energy.</string>
     <string name="desc_plastik">Used plastic refers to plastic that has been used and is no longer needed. Used plastic can be recycled into various new products, but the process is often more complex due to the variety of plastic types.</string>
     <string name="desc_sisa_makanan">Food waste is organic material that comes from food that has been consumed or discarded. Food waste can be used for compost or converted into bioenergy products, helping to reduce waste and improve soil fertility.</string>
+    <string name="result_label">%s %.2f%%</string>
 
 
 </resources>

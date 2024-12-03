@@ -95,6 +95,6 @@
     <string name="desc_kertas">Kertas bekas mengacu pada kertas yang telah digunakan atau dibuang, yang tidak lagi memiliki nilai langsung dalam bentuk aslinya dan biasanya dibuang atau didaur ulang. Kertas bekas dapat didaur ulang menjadi berbagai produk kertas baru, mengurangi deforestasi dan menghemat energi.</string>
     <string name="desc_plastik">Plastik bekas adalah plastik yang telah digunakan dan tidak lagi dibutuhkan. Plastik bekas dapat didaur ulang menjadi berbagai produk baru, tetapi sering kali memerlukan proses yang lebih rumit karena berbagai jenis plastik yang ada.</string>
     <string name="desc_sisa_makanan">Sisa makanan adalah bahan organik yang berasal dari makanan yang telah dikonsumsi atau dibuang. Sisa makanan dapat digunakan untuk kompos atau menjadi bahan baku untuk pembuatan produk bioenergi, membantu mengurangi limbah dan memperbaiki kesuburan tanah.</string>
-
+    <string name="result_label">%s %.2f%%</string>
 
 </resources>

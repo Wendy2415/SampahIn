@@ -31,7 +31,7 @@ class WelcomeActivity : AppCompatActivity() {
         uidPref = UidPreferences(this)
 
         lifecycleScope.launch {
-            if (!uidPref.getUid().isNullOrEmpty()) {
+            if (uidPref.getUid().isNullOrEmpty()) {
                 val intent = Intent(this@WelcomeActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
