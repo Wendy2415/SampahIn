@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.capstone.sampahin.R
-import com.capstone.sampahin.data.UidPreferences
+import com.capstone.sampahin.data.TokenPreferences
 import com.capstone.sampahin.databinding.FragmentProfileBinding
 import com.capstone.sampahin.ui.login.LoginActivity
 import com.capstone.sampahin.ui.login.LoginViewModelFactory
@@ -20,7 +20,7 @@ class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private lateinit var prefUid: UidPreferences
+    private lateinit var tokenPref : TokenPreferences
     private val viewModel: ProfileViewModel by viewModels {
         LoginViewModelFactory.getInstance(requireContext())
     }
@@ -36,27 +36,27 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        prefUid = UidPreferences(requireContext())
+        tokenPref = TokenPreferences(requireActivity())
 
         binding.signOutButton.setOnClickListener {
             logout()
         }
 
         lifecycleScope.launch {
-            val uid = prefUid.getUid()
-            if (uid != null) {
-                val user = viewModel.getUser(uid)
+            val token = tokenPref.getToken()
+            if (token != null) {
+                val user = viewModel.getUser(token)
                 binding.tvUsername.text = user.name
                 binding.tvEmail.text = user.email
             } else {
-                Toast.makeText(requireActivity(), "UID not found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "token not found", Toast.LENGTH_SHORT).show()
             }
         }
 
     }
 
     private fun logout() {
-        prefUid.clearUid()
+        tokenPref.clearToken()
         Toast.makeText(requireActivity(), getString(R.string.logout_success), Toast.LENGTH_SHORT)
             .show()
         val intent = Intent(activity, LoginActivity::class.java)

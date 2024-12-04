@@ -8,7 +8,7 @@ import android.view.View
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.capstone.sampahin.data.UidPreferences
+import com.capstone.sampahin.data.TokenPreferences
 import com.capstone.sampahin.databinding.ActivityWelcomeBinding
 import com.capstone.sampahin.ui.login.LoginActivity
 import com.capstone.sampahin.ui.register.RegisterActivity
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class WelcomeActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityWelcomeBinding
-    private lateinit var uidPref : UidPreferences
+    private lateinit var tokenPref : TokenPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +28,10 @@ class WelcomeActivity : AppCompatActivity() {
         binding = ActivityWelcomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        uidPref = UidPreferences(this)
+        tokenPref = TokenPreferences(this)
 
         lifecycleScope.launch {
-            if (uidPref.getUid().isNullOrEmpty()) {
+            if (!tokenPref.getToken().isNullOrEmpty()) {
                 val intent = Intent(this@WelcomeActivity, MainActivity::class.java)
                 startActivity(intent)
                 finish()
