@@ -3,13 +3,13 @@ package com.capstone.sampahin.data.login
 import com.capstone.sampahin.data.api.ApiService
 import retrofit2.HttpException
 import com.capstone.sampahin.data.Result
-import com.capstone.sampahin.data.UidPreferences
+import com.capstone.sampahin.data.TokenPreferences
 import com.capstone.sampahin.data.database.UserDao
 import com.capstone.sampahin.data.database.UserEntity
 
 class LoginRepository(
     private val apiService: ApiService,
-    private val uidPref: UidPreferences,
+    private val tokenPref : TokenPreferences,
     private val userDao: UserDao
 ) {
 
@@ -18,14 +18,13 @@ class LoginRepository(
             val request = LoginRequest(email, password)
             val response = apiService.login(request)
 
-            val uid = response.user?.uid ?: return Result.Error("Login failed: UID missing")
-            uidPref.saveUid(uid)
+            val token = response.token ?: return Result.Error("Login failed: UID missing")
+            tokenPref.saveToken(token)
 
-            val user = response.user
             val userEntity = UserEntity(
-                uid,
-                user.name ?: "",
-                user.email ?: "",
+                response.token,
+                response.username ?: "",
+                response.email ?: "",
             )
             userDao.insertUser(userEntity)
             Result.Success(response)
@@ -48,11 +47,11 @@ class LoginRepository(
 
         fun getInstance(
             apiService: ApiService,
-            uidPref: UidPreferences,
+            tokenPref: TokenPreferences,
             userDao: UserDao
         ): LoginRepository =
             instance ?: synchronized(this) {
-                instance ?: LoginRepository(apiService, uidPref, userDao).also { instance = it }
+                instance ?: LoginRepository(apiService, tokenPref, userDao).also { instance = it }
             }
     }
 }

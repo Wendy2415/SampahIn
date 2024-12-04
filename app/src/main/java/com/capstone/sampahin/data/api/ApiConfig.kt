@@ -21,7 +21,7 @@ object ApiConfig {
     }
 
     fun getApiService(): ApiService {
-        val retrofit = createRetrofit("https://firebase-api-851479113294.asia-southeast2.run.app/")
+        val retrofit = createRetrofit("https://firebase-851479113294.asia-southeast2.run.app/")
         return retrofit.create(ApiService::class.java)
     }
 

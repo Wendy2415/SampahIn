@@ -10,10 +10,10 @@ class RegisterRepository(private val apiService: ApiService) {
     private val _registerResult = MutableLiveData<Result<RegisterResponse>>()
     val registerResult: LiveData<Result<RegisterResponse>> get() = _registerResult
 
-    suspend fun getRegister(name: String, email: String, password: String) {
+    suspend fun getRegister(username: String, email: String, password: String) {
         _registerResult.postValue(Result.Loading)
         try {
-            val bodyReq = RegisterRequest(name, email, password)
+            val bodyReq = RegisterRequest(username, email, password)
             val response = apiService.register(bodyReq)
             _registerResult.postValue(Result.Success(response))
         } catch (e: Exception) {

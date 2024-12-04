@@ -32,14 +32,14 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun handleRegister() {
-        val name = binding.etName.text.toString().trim()
+        val username = binding.etName.text.toString().trim()
         val email = binding.etEmail.text.toString().trim()
         val password = binding.etPassword.text.toString().trim()
         val passwordConfirm = binding.etPasswordConfirm.text.toString().trim()
 
         var isValid = true
 
-        if (name.isEmpty()) {
+        if (username.isEmpty()) {
             binding.etlName.error = "Must Fill Name"
             isValid = false
         } else {
@@ -77,7 +77,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
          if (isValid) {
-            registerViewModel.findRegister(name, email, password)
+            registerViewModel.findRegister(username, email, password)
         }
     }
 

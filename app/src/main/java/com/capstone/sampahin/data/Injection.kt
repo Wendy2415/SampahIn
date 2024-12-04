@@ -15,7 +15,7 @@ object Injection {
         val apiService = ApiConfig.getApiService()
         return LoginRepository.getInstance(
             apiService,
-            UidPreferences.getInstance(context),
+            TokenPreferences.getInstance(context),
             AppDatabase.getInstance(context).userDao()
         )
     }

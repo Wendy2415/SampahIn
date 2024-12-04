@@ -12,9 +12,9 @@ class RegisterViewModel(private val registerRepository: RegisterRepository) : Vi
 
     val registerResult: LiveData<Result<RegisterResponse>> = registerRepository.registerResult
 
-    fun findRegister(name: String, email: String, password: String) {
+    fun findRegister(username: String, email: String, password: String) {
         viewModelScope.launch {
-            registerRepository.getRegister(name, email, password)
+            registerRepository.getRegister(username, email, password)
         }
     }
 }
