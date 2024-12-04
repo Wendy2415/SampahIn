@@ -1,19 +1,11 @@
 package com.capstone.sampahin.ui
 
-import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.provider.MediaStore
-import android.provider.MediaStore.Audio.Media
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import androidx.core.graphics.drawable.DrawableCompat
 import com.capstone.sampahin.R
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -64,13 +56,13 @@ fun File.reduceFileImage(): File{
 
 fun getProfileIcon(context: Context, isLocalUser: Boolean): Drawable {
     val drawable =
-        ContextCompat.getDrawable(context, R.drawable.baseline_account_circle_24)
+        ContextCompat.getDrawable(context, R.drawable.mascot)
             ?: throw IllegalStateException("Could not get user profile image")
 
     if (isLocalUser) {
-        DrawableCompat.setTint(drawable.mutate(), Color.BLUE)
+        ContextCompat.getDrawable(context, R.drawable.baseline_account_circle_24)
     } else {
-        DrawableCompat.setTint(drawable.mutate(), Color.RED)
+        ContextCompat.getDrawable(context, R.drawable.mascot)
     }
 
     return drawable

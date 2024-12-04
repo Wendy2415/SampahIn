@@ -28,7 +28,6 @@ class BertHelper(
         } else if (Build.VERSION.SDK_INT >= 27) {
             baseOptionsBuilder.useNnapi()
         } else {
-            // Menggunakan CPU
             baseOptionsBuilder.setNumThreads(4)
         }
 

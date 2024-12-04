@@ -14,14 +14,15 @@
             android:id="@+id/topAppBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/button_back"
@@ -30,26 +31,35 @@
                     android:layout_marginStart="8dp"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/back"
-                    app:srcCompat="@drawable/baseline_arrow_back_ios_new_24"
+                    android:elevation="10dp"
                     android:textColor="@color/primaryColor"
-                    android:elevation="10dp" />
+                    app:srcCompat="@drawable/baseline_arrow_back_24" />
 
                 <ImageView
                     android:id="@+id/logo_sammy"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:importantForAccessibility="no"
                     android:padding="0dp"
                     app:srcCompat="@drawable/mascot" />
 
-                <com.google.android.material.appbar.MaterialToolbar
+                <TextView
                     android:id="@+id/topAppBar"
                     android:layout_width="0dp"
                     android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
-                    app:title="@string/appbar_sammy" />
+                    android:gravity="center|start"
+                    android:paddingTop="4dp"
+                    android:text="@string/appbar_sammy"
+                    android:textSize="16sp" />
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="@drawable/bg_app_bar" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -60,9 +70,18 @@
             android:scrollbars="vertical"
             app:layout_constraintBottom_toTopOf="@id/bottomView"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/topAppBarLayout"
+            app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_message_local" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/bg_app_bar"
+            app:layout_constraintBottom_toTopOf="@id/bottomView"
+            tools:layout_editor_absoluteY="445dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bottomView"
@@ -74,6 +93,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
+
+            <ImageButton
+                android:id="@+id/button_suggestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:src="@drawable/baseline_keyboard_arrow_up_24"
+                app:layout_constraintBottom_toTopOf="@id/rv_questionSuggestions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.972"
+                app:layout_constraintStart_toEndOf="@id/tv_suggestion"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/tv_suggestion"
@@ -87,7 +120,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_questionSuggestions"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="100dp"
                 app:layout_constraintBottom_toTopOf="@id/til_question"
                 app:layout_constraintTop_toBottomOf="@id/tv_suggestion" />
 
@@ -95,17 +128,13 @@
                 android:id="@+id/til_question"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingStart="0dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp"
-                android:paddingBottom="8dp"
                 app:boxCornerRadiusBottomEnd="40dp"
                 app:boxCornerRadiusBottomStart="40dp"
                 app:boxCornerRadiusTopEnd="40dp"
                 app:boxCornerRadiusTopStart="40dp"
                 app:boxStrokeColor="@color/black"
                 app:endIconMode="clear_text"
-                app:layout_constraintBottom_toTopOf="@id/tv_inferenceTime"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/ib_send"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -114,9 +143,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/tiet_question_label"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:maxLines="3"
-                    android:padding="13dp" />
+                    android:padding="13dp"
+                    android:textColorHint="#757575"
+                    tools:ignore="TextContrastCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -130,14 +161,8 @@
                 android:src="@drawable/baseline_send_24"
                 app:layout_constraintBottom_toBottomOf="@id/til_question"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/til_question" />
-
-            <TextView
-                android:id="@+id/tv_inferenceTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintTop_toTopOf="@id/til_question"
+                tools:ignore="RedundantDescriptionCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

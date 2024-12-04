@@ -39,7 +39,6 @@ class ChatFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentChatBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -50,29 +49,28 @@ class ChatFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
             String.format(getString(R.string.fragment_qa_title), args.topicTitle)
 
+
         val client = DatasetClient(requireActivity())
         client.loadJsonData()?.let {
             topicContent = it.getContents()[args.topicID]
             topicSuggestedQuestions = it.questions[args.topicID]
         }
 
+        setButtonSuggestion()
         initChatHistoryRecyclerView()
         initQuestionSuggestionsRecyclerView()
         initBertQAModel()
 
         binding.tietQuestion.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // pass
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Tombol send hanya aktif jikalau terdapat pertanyaan pada TextInputEditText
                 val shouldSendButtonActive: Boolean = s.isNullOrEmpty()
                 binding.ibSend.isClickable = !shouldSendButtonActive
             }
 
             override fun afterTextChanged(s: Editable?) {
-                // pass
             }
 
         })
@@ -97,7 +95,7 @@ class ChatFragment : Fragment() {
             } else {
                 Toast.makeText(
                     requireContext(),
-                    "Harap masukkan sebuah pertanyaan terlebih dahulu",
+                    "Please enter the question first.",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -109,11 +107,29 @@ class ChatFragment : Fragment() {
 
         }
 
-        binding.tvInferenceTime.text = String.format(
-            requireContext().getString(R.string.tv_inference_time_label),
-            0L
-        )
+        binding.buttonBack.setOnClickListener{
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
 
+    }
+
+    private fun setButtonSuggestion() {
+        val buttonSuggestion = binding.buttonSuggestion
+        val rvQuestionSuggestions = binding.rvQuestionSuggestions
+        val progressBar = binding.progressBar
+
+        buttonSuggestion.isEnabled = progressBar.visibility == View.GONE
+
+        buttonSuggestion.setOnClickListener {
+            if (progressBar.visibility == View.GONE) {
+                val isVisible = rvQuestionSuggestions.visibility == View.VISIBLE
+                rvQuestionSuggestions.visibility = if (isVisible) View.GONE else View.VISIBLE
+                buttonSuggestion.setImageResource(
+                    if (isVisible) R.drawable.baseline_keyboard_arrow_down_24
+                    else R.drawable.baseline_keyboard_arrow_up_24
+                )
+            }
+        }
     }
 
     private fun initChatHistoryRecyclerView() {
@@ -163,11 +179,6 @@ class ChatFragment : Fragment() {
                     chatAdapter.addMessage(Message(it.text, false))
                     binding.rvChatHistory.scrollToPosition(chatAdapter.itemCount - 1)
                 }
-
-                binding.tvInferenceTime.text = String.format(
-                    requireContext().getString(R.string.tv_inference_time_label),
-                    inferenceTime
-                )
             }
 
         })

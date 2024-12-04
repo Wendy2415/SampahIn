@@ -3,8 +3,7 @@
     android:shape="rectangle">
 
     <!-- View background color -->
-    <corners android:radius="150dp"/>
-    <corners android:topLeftRadius="40dp"/>
+    <corners android:radius="20dp"/>
 
     <!-- The radius makes the corners rounded -->
     <solid android:color="@color/gray" />
