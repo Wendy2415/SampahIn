@@ -29,7 +29,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA4PPwzd5OUi_lCJmNmzBqOj1BPieszDfk" />
+            android:value="AlzaSyA4PPwzd5OUi_lCJmNmzBqOj1BPieszDfk" />
 
         <activity
             android:name=".ui.scan.CameraActivity"
