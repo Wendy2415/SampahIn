@@ -97,5 +97,13 @@
     <string name="desc_sisa_makanan">Food waste is organic material that comes from food that has been consumed or discarded. Food waste can be used for compost or converted into bioenergy products, helping to reduce waste and improve soil fertility.</string>
     <string name="result_label">%s %.2f%%</string>
 
+    <string name="title_settings">Settings</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="enable_dark_mode">Enable dark mode</string>
+    <string name="add_address">Input Address</string>
+    <string name="radius">Radius</string>
+
+    <string name="must_fill">Please fill the fields</string>
+
 
 </resources>

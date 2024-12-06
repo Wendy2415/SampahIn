@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.sampahin.R
 import com.capstone.sampahin.data.Category
 import com.capstone.sampahin.databinding.FragmentHomeBinding
+import com.capstone.sampahin.ui.maps.MapsFragment
 
 class HomeFragment : Fragment() {
 
@@ -36,11 +37,16 @@ class HomeFragment : Fragment() {
         val homeViewModel =
             ViewModelProvider(this)[HomeViewModel::class.java]
 
+
         categoryAdapter = CategoryAdapter(list)
         binding.rvCategoryHome.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = categoryAdapter
+        }
+
+        binding.mapLayout.setOnClickListener {
+            navigateToMapFragment()
         }
 
         homeViewModel.isLoading.observe(viewLifecycleOwner) {
@@ -70,6 +76,14 @@ class HomeFragment : Fragment() {
         } else {
             binding.progressBar.visibility = View.GONE
         }
+    }
+
+    private fun navigateToMapFragment() {
+        val transaction = parentFragmentManager.beginTransaction()
+        val mapFragment = MapsFragment()
+        transaction.replace(R.id.action_navigation_home_to_navigation_maps, mapFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     override fun onDestroyView() {

@@ -35,16 +35,15 @@ class ScanFragment : Fragment() {
 
     private var _binding: FragmentScanBinding? = null
     private val binding get() = _binding!!
-    private val viewModel : ScanViewModel by viewModels()
-
+    private val viewModel: ScanViewModel by viewModels()
 
     private val requestPermissionLauncher =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
-        ){isGranted : Boolean ->
-            if (isGranted){
+        ) { isGranted: Boolean ->
+            if (isGranted) {
                 Toast.makeText(requireActivity(), "Permission Request granted", Toast.LENGTH_SHORT).show()
-            }else{
+            } else {
                 Toast.makeText(requireActivity(), "Permission Request Denied", Toast.LENGTH_SHORT).show()
             }
         }
@@ -53,7 +52,7 @@ class ScanFragment : Fragment() {
         ContextCompat.checkSelfPermission(
             requireActivity(),
             REQUIRED_PERMISSION
-        )== PackageManager.PERMISSION_GRANTED
+        ) == PackageManager.PERMISSION_GRANTED
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,13 +65,12 @@ class ScanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (!allPermissionGranted()){
+        if (!allPermissionGranted()) {
             requestPermissionLauncher.launch(REQUIRED_PERMISSION)
         }
 
-
         binding.galleryButton.setOnClickListener { startGallery() }
-        binding.analyzeButton.setOnClickListener {uploadImage()}
+        binding.analyzeButton.setOnClickListener { uploadImage() }
         binding.btnCamera.setOnClickListener { startCameraX() }
     }
 
@@ -85,7 +83,6 @@ class ScanFragment : Fragment() {
         launcherIntentCameraX.launch(intent)
     }
 
-
     private val launcherIntentCameraX = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
@@ -95,11 +92,9 @@ class ScanFragment : Fragment() {
             viewModel.currentImageUri?.let { uri ->
                 startCrop(uri)
             }
-
             showImage()
         }
     }
-
 
     private val launcherGallery = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()
@@ -121,7 +116,7 @@ class ScanFragment : Fragment() {
     private fun startCrop(uri: Uri) {
         val time = System.currentTimeMillis()
         val destinationUri = Uri.fromFile(File(requireContext().cacheDir, "cropped_image_$time.jpg"))
-        cropImageLauncher.launch(UCrop.of(uri,destinationUri).getIntent(requireContext()))
+        cropImageLauncher.launch(UCrop.of(uri, destinationUri).getIntent(requireContext()))
     }
 
     private val cropImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -158,19 +153,24 @@ class ScanFragment : Fragment() {
 
                     val translatedLabel = translateLabel(response.predictedClass!!)
                     val description = getDescription(response.predictedClass)
+                    val result = String.format(
+                        getString(R.string.result_label),
+                        translatedLabel,
+                        (response.confidence as Double) * 100
+                    )
 
-                    with(binding) {
-                        tvResult.text = String.format(
-                            getString(R.string.result_label),
-                            translatedLabel,
-                            (response.confidence as Double) * 100
-                        )
-                        Result.visibility = View.VISIBLE
-                        tvResult.visibility = View.VISIBLE
-                        descResult.text = description
-                        descResult.visibility = View.VISIBLE
-                        tvInference.text = getString(R.string.tv_inference_time_label, 0) // Placeholder
-                    }
+                    viewModel.resultLabel = result
+                    viewModel.description = description
+                    viewModel.result = getString(R.string.result)
+
+                    binding.tvResult.text = viewModel.resultLabel
+                    binding.tvResult.visibility = View.VISIBLE
+
+                    binding.Result.text = viewModel.result
+                    binding.Result.visibility = View.VISIBLE
+
+                    binding.descResult.text = viewModel.description
+                    binding.descResult.visibility = View.VISIBLE
 
                     binding.root.post {
                         val targetY = binding.Result.top
@@ -206,7 +206,6 @@ class ScanFragment : Fragment() {
         }
     }
 
-
     private fun getDescription(label: String): String {
         return when (label.lowercase()) {
             "besi" -> getString(R.string.desc_besi)
@@ -221,8 +220,6 @@ class ScanFragment : Fragment() {
         }
     }
 
-
-
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
@@ -232,7 +229,7 @@ class ScanFragment : Fragment() {
         _binding = null
     }
 
-    companion object{
+    companion object {
         private const val REQUIRED_PERMISSION = android.Manifest.permission.CAMERA
     }
 
@@ -242,17 +239,41 @@ class ScanFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+
         viewModel.currentImageUri?.let {
             outState.putString("imageUri", it.toString())
         }
+
+        outState.putString("resultLabel", viewModel.resultLabel)
+        outState.putString("result", viewModel.result)
+        outState.putString("description", viewModel.description)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
+
         savedInstanceState?.getString("imageUri")?.let {
             viewModel.currentImageUri = Uri.parse(it)
             showImage()
         }
+
+        viewModel.resultLabel = savedInstanceState?.getString("resultLabel")
+        viewModel.result = savedInstanceState?.getString("result")
+        viewModel.description = savedInstanceState?.getString("description")
+
+        updateUI()
+    }
+
+
+    private fun updateUI() {
+        binding.tvResult.text = viewModel.resultLabel ?: ""
+        binding.tvResult.visibility = if (viewModel.resultLabel.isNullOrEmpty()) View.GONE else View.VISIBLE
+
+        binding.descResult.text = viewModel.description ?: ""
+        binding.descResult.visibility = if (viewModel.description.isNullOrEmpty()) View.GONE else View.VISIBLE
+
+        binding.Result.text = viewModel.result ?: ""
+        binding.Result.visibility = if (viewModel.description.isNullOrEmpty()) View.GONE else View.VISIBLE
     }
 
 }

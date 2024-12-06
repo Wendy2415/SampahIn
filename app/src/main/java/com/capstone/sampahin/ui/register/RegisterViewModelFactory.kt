@@ -19,9 +19,9 @@ class RegisterViewModelFactory private constructor(private val registerRepositor
     companion object {
         @Volatile
         private var instance: RegisterViewModelFactory? = null
-        fun getInstance(context: Context): RegisterViewModelFactory =
+        fun getInstance(): RegisterViewModelFactory =
             instance ?: synchronized(this) {
-                instance ?: RegisterViewModelFactory(Injection.provideRegisterRepository(context))
+                instance ?: RegisterViewModelFactory(Injection.provideRegisterRepository())
             }.also { instance = it }
     }
 }

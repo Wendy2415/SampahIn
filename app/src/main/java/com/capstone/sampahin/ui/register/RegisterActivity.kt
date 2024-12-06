@@ -14,7 +14,7 @@ import com.capstone.sampahin.ui.login.LoginActivity
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
-    private val factory: RegisterViewModelFactory = RegisterViewModelFactory.getInstance(this)
+    private val factory: RegisterViewModelFactory = RegisterViewModelFactory.getInstance()
     private val registerViewModel: RegisterViewModel by viewModels { factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {

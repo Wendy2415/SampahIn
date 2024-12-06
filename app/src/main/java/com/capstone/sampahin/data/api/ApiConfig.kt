@@ -1,9 +1,11 @@
 package com.capstone.sampahin.data.api
 
+import com.capstone.sampahin.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 object ApiConfig {
 
@@ -12,6 +14,9 @@ object ApiConfig {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
             .build()
         return Retrofit.Builder()
             .baseUrl(baseUrl)
@@ -21,13 +26,20 @@ object ApiConfig {
     }
 
     fun getApiService(): ApiService {
-        val retrofit = createRetrofit("https://firebase-851479113294.asia-southeast2.run.app/")
+        val retrofit = createRetrofit(BuildConfig.BASE_URL)
         return retrofit.create(ApiService::class.java)
     }
 
     fun getMLApiService(): MLApiService {
-        val retrofit = createRetrofit("https://backend-ml-2-dot-sampahin.et.r.appspot.com/")
+        val retrofit = createRetrofit(BuildConfig.ML_BASE_URL)
         return retrofit.create(MLApiService::class.java)
     }
+
+    fun getMapApiService(): ApiService {
+        val retrofit = createRetrofit(BuildConfig.MAP_BASE_URL)
+        return retrofit.create(ApiService::class.java)
+    }
+
+
 }
 

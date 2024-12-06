@@ -11,4 +11,5 @@
     <color name="textColorSecondary">#666666</color>
     <color name="red">#FF0000</color>
     <color name="gray">#DBDBDB</color>
+    <color name="black_transparent">#80000000</color>
 </resources>

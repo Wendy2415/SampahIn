@@ -2,6 +2,8 @@ package com.capstone.sampahin.data.api
 
 import com.capstone.sampahin.data.login.LoginRequest
 import com.capstone.sampahin.data.login.LoginResponse
+import com.capstone.sampahin.data.maps.MapsRequest
+import com.capstone.sampahin.data.maps.MapsResponse
 import com.capstone.sampahin.data.register.RegisterRequest
 import com.capstone.sampahin.data.register.RegisterResponse
 import retrofit2.http.Body
@@ -18,4 +20,8 @@ interface ApiService {
     @Headers("Content-Type: application/json")
     suspend fun login(@Body loginRequest: LoginRequest): LoginResponse
 
+    @POST("find_places")
+    suspend fun findPlaces(
+        @Body request: MapsRequest
+    ): MapsResponse
 }

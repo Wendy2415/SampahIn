@@ -3,10 +3,12 @@ package com.capstone.sampahin.data
 import android.content.Context
 import com.capstone.sampahin.data.api.ApiConfig
 import com.capstone.sampahin.data.login.LoginRepository
+import com.capstone.sampahin.data.maps.MapsRepository
 import com.capstone.sampahin.data.register.RegisterRepository
 
 object Injection {
-    fun provideRegisterRepository(context: Context): RegisterRepository {
+
+    fun provideRegisterRepository(): RegisterRepository {
         val apiService = ApiConfig.getApiService()
         return RegisterRepository.getInstance(apiService)
     }
@@ -18,6 +20,11 @@ object Injection {
             TokenPreferences.getInstance(context),
             AppDatabase.getInstance(context).userDao()
         )
+    }
+
+    fun provideMapsRepository():MapsRepository {
+        val apiService = ApiConfig.getMapApiService()
+        return MapsRepository.getInstance(apiService)
     }
 
 }

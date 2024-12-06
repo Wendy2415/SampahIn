@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="com.capstone.sampahin.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_maps"
+            app:destination="@id/navigation_maps" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_chat"

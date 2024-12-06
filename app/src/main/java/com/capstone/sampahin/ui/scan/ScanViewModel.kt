@@ -5,4 +5,7 @@ import androidx.lifecycle.ViewModel
 
 class ScanViewModel : ViewModel() {
     var currentImageUri: Uri? = null
+    var resultLabel: String? = null
+    var description: String? = null
+    var result: String? = null
 }
