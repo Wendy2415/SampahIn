@@ -43,23 +43,22 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+    }
 
-        binding.addAddressButton.setOnClickListener {
-            val address = binding.etAddress.text.toString()
-            val radius = binding.etRadius.text.toString().toIntOrNull()
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
 
-            if (address.isNotEmpty() && radius != null) {
-                hideKeyboard()
-                mapsViewModel.fetchMapsData(address, radius)
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    "Please enter valid address and radius",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
 
-        }
+        map.uiSettings.isZoomControlsEnabled = true
+        map.uiSettings.isIndoorLevelPickerEnabled = true
+        map.uiSettings.isCompassEnabled = true
+        map.uiSettings.isMapToolbarEnabled = true
+
+        val initialLocation = LatLng(-6.200000, 106.816666)
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(initialLocation, 15f))
 
         mapsViewModel.mapsResult.observe(viewLifecycleOwner) { result ->
             when (result) {
@@ -75,8 +74,11 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
                             val latLng = LatLng(it.lat as Double, it.lng as Double)
                             map.addMarker(
                                 MarkerOptions().position(latLng).title(place.name)
-                                    .snippet(place.address)
-                                    .icon(vectorToBitmap(R.drawable.icon_map_recycle, Color.parseColor("#006400")))
+                                    .snippet(place.address).icon(
+                                        vectorToBitmap(
+                                            R.drawable.icon_map_recycle, Color.parseColor("#006400")
+                                        )
+                                    )
                             )
                             boundsBuilder.include(latLng)
                         }
@@ -100,22 +102,25 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
                 }
             }
         }
+
+        initMap()
+
     }
 
-    private fun showLoading(isLoading: Boolean) {
-        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-    }
+    private fun initMap() {
+        binding.addAddressButton.setOnClickListener {
+            val address = binding.etAddress.text.toString()
+            val radius = binding.etRadius.text.toString().toIntOrNull()
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
-
-        map.uiSettings.isZoomControlsEnabled = true
-        map.uiSettings.isIndoorLevelPickerEnabled = true
-        map.uiSettings.isCompassEnabled = true
-        map.uiSettings.isMapToolbarEnabled = true
-
-        val initialLocation = LatLng(-6.200000, 106.816666)
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(initialLocation, 15f))
+            if (address.isNotEmpty() && radius != null) {
+                hideKeyboard()
+                mapsViewModel.fetchMapsData(address, radius)
+            } else {
+                Toast.makeText(
+                    requireContext(), "Please enter valid address and radius", Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 
     private fun vectorToBitmap(@DrawableRes id: Int, @ColorInt color: Int): BitmapDescriptor {
@@ -125,9 +130,7 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
             return BitmapDescriptorFactory.defaultMarker()
         }
         val bitmap = Bitmap.createBitmap(
-            vectorDrawable.intrinsicWidth,
-            vectorDrawable.intrinsicHeight,
-            Bitmap.Config.ARGB_8888
+            vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888
         )
         val canvas = Canvas(bitmap)
         vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
@@ -137,10 +140,9 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
     }
 
     private fun hideKeyboard() {
-        val imm = requireContext().getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+        val imm =
+            requireContext().getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
         val view = requireActivity().currentFocus
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
-
-
 }
