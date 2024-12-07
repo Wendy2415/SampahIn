@@ -102,7 +102,7 @@
     <string name="dark_mode">Dark Mode</string>
     <string name="enable_dark_mode">Enable dark mode</string>
     <string name="add_address">Input Address</string>
-    <string name="radius">Radius</string>
+    <string name="radius">Radius (meters)</string>
 
     <string name="must_fill">Please fill the fields</string>
     <string name="must_fill_name">Please fill the name fields</string>
@@ -115,6 +115,10 @@
     <string name="password_not_match">Passwords are not match</string>
     <string name="location_permission_denied">Permission Denied</string>
     <string name="signUp_login">Still no account? Sign Up here</string>
+    <string name="chat_scan">Have a question? Ask here!</string>
+    <string name="address">address</string>
+    <string name="title">Title</string>
+    <string name="closest_place_recomendation">Closest Place Recomendation</string>
 
 
 </resources>

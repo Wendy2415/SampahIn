@@ -9,6 +9,7 @@ import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
@@ -18,6 +19,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -39,6 +41,9 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
     private val boundsBuilder = LatLngBounds.Builder()
     private lateinit var binding: FragmentMapsBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private val mapsAdapter: MapsAdapter by lazy { MapsAdapter() }
+
     private val mapsViewModel: MapsViewModel by viewModels {
         MapsViewModelFactory.getInstance()
     }
@@ -52,6 +57,7 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        recycleView()
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -76,6 +82,12 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
         observeMap()
         initMap()
 
+    }
+
+    private fun recycleView() {
+        val layout = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvMaps.adapter = mapsAdapter
+        binding.rvMaps.layoutManager = layout
     }
 
     private val requestPermissionLauncher =
@@ -118,7 +130,7 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
 
                 is Result.Success -> {
                     showLoading(false)
-                    val places = result.data.places
+                    val places = result.data.mapsResponses
                     places?.forEach { place ->
                         place?.location?.let {
                             val latLng = LatLng(it.lat as Double, it.lng as Double)
@@ -135,7 +147,7 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
                         binding.placeholderLayout.visibility = View.GONE
                     }
 
-                    if (result.data.places.isNullOrEmpty()) {
+                    if (result.data.mapsResponses.isNullOrEmpty()) {
                         Toast.makeText(requireContext(), getString(R.string.maps_fail), Toast.LENGTH_SHORT).show()
                     } else {
                         val bounds = boundsBuilder.build()
@@ -156,6 +168,7 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
                             )
                         )
                     }
+                    mapsAdapter.submitList(places)
                 }
 
                 is Result.Error -> {

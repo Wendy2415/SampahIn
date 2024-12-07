@@ -17,6 +17,7 @@ import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import com.capstone.sampahin.R
 import com.capstone.sampahin.data.api.ApiConfig
 import com.capstone.sampahin.databinding.FragmentScanBinding
@@ -72,6 +73,9 @@ class ScanFragment : Fragment() {
         binding.galleryButton.setOnClickListener { startGallery() }
         binding.analyzeButton.setOnClickListener { uploadImage() }
         binding.btnCamera.setOnClickListener { startCameraX() }
+        binding.chatButton.setOnClickListener { moveToChat() }
+
+        updateUI()
     }
 
     private fun startGallery() {
@@ -161,16 +165,15 @@ class ScanFragment : Fragment() {
 
                     viewModel.resultLabel = result
                     viewModel.description = description
+
+                    viewModel.resultLabel = result
+                    viewModel.description = description
                     viewModel.result = getString(R.string.result)
+                    viewModel.isResultVisible = true
+                    viewModel.isDescriptionVisible = true
+                    viewModel.isChatButtonVisible = true
 
-                    binding.tvResult.text = viewModel.resultLabel
-                    binding.tvResult.visibility = View.VISIBLE
-
-                    binding.Result.text = viewModel.result
-                    binding.Result.visibility = View.VISIBLE
-
-                    binding.descResult.text = viewModel.description
-                    binding.descResult.visibility = View.VISIBLE
+                    updateUI()
 
                     binding.root.post {
                         val targetY = binding.Result.top
@@ -190,6 +193,12 @@ class ScanFragment : Fragment() {
             }
         } ?: showToast(getString(R.string.empty_image_warning))
     }
+
+    private fun moveToChat() {
+        val action = ScanFragmentDirections.actionNavigationScanToNavigationTopics()
+        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main).navigate(action)
+    }
+
 
 
     private fun translateLabel(label: String): String {
@@ -224,10 +233,6 @@ class ScanFragment : Fragment() {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     companion object {
         private const val REQUIRED_PERMISSION = android.Manifest.permission.CAMERA
@@ -237,43 +242,23 @@ class ScanFragment : Fragment() {
         binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        viewModel.currentImageUri?.let {
-            outState.putString("imageUri", it.toString())
-        }
-
-        outState.putString("resultLabel", viewModel.resultLabel)
-        outState.putString("result", viewModel.result)
-        outState.putString("description", viewModel.description)
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-
-        savedInstanceState?.getString("imageUri")?.let {
-            viewModel.currentImageUri = Uri.parse(it)
-            showImage()
-        }
-
-        viewModel.resultLabel = savedInstanceState?.getString("resultLabel")
-        viewModel.result = savedInstanceState?.getString("result")
-        viewModel.description = savedInstanceState?.getString("description")
-
-        updateUI()
-    }
 
 
     private fun updateUI() {
         binding.tvResult.text = viewModel.resultLabel ?: ""
-        binding.tvResult.visibility = if (viewModel.resultLabel.isNullOrEmpty()) View.GONE else View.VISIBLE
+        binding.tvResult.visibility = if (viewModel.isResultVisible) View.VISIBLE else View.GONE
 
         binding.descResult.text = viewModel.description ?: ""
-        binding.descResult.visibility = if (viewModel.description.isNullOrEmpty()) View.GONE else View.VISIBLE
+        binding.descResult.visibility = if (viewModel.isDescriptionVisible) View.VISIBLE else View.GONE
 
         binding.Result.text = viewModel.result ?: ""
-        binding.Result.visibility = if (viewModel.description.isNullOrEmpty()) View.GONE else View.VISIBLE
+        binding.Result.visibility = if (viewModel.isResultVisible) View.VISIBLE else View.GONE
+
+        binding.chatButton.visibility = if (viewModel.isChatButtonVisible) View.VISIBLE else View.GONE
+
+        viewModel.currentImageUri?.let { uri ->
+            binding.previewImageView.setImageURI(uri)
+        }
     }
 
 }

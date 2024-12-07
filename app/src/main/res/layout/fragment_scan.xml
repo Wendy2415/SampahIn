@@ -146,12 +146,30 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/result"
-                android:textColor="@color/backgroundColor"
                 android:visibility="gone"
+                android:textColor="@color/backgroundColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvResult" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/chatButton"
+                style="@style/ButtonWhite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:padding="12dp"
+                android:visibility="gone"
+                android:text="@string/chat_scan"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/descResult"
+                tools:ignore="RtlHardcoded" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

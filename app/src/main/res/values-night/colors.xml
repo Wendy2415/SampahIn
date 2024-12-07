@@ -9,6 +9,7 @@
     <color name="bottomBarInactiveColor">#888888</color>
     <color name="textColor">#FFFFFF</color>
     <color name="textColorSecondary">#999999</color>
+    <color name="red">#FF0000</color>
     <color name="gray">#DBDBDB</color>
     <color name="black_transparent">#80000000</color>
 </resources>

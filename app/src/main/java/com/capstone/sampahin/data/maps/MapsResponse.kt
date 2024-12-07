@@ -2,16 +2,14 @@ package com.capstone.sampahin.data.maps
 
 import com.google.gson.annotations.SerializedName
 
-data class MapsResponse(
+data class MapsResponses(
 
-	@field:SerializedName("places")
-	val places: List<PlacesItem?>? = null,
-
-	@field:SerializedName("query_location")
-	val queryLocation: QueryLocation? = null
+	@field:SerializedName("MapsResponses")
+	val mapsResponses: List<MapsResponsesItem?>? = null
 )
 
-data class PlacesItem(
+data class MapsResponsesItem(
+
 	@field:SerializedName("address")
 	val address: String? = null,
 
@@ -29,16 +27,4 @@ data class Location(
 
 	@field:SerializedName("lat")
 	val lat: Any? = null
-)
-
-data class QueryLocation(
-
-	@field:SerializedName("address")
-	val address: String? = null,
-
-	@field:SerializedName("latitude")
-	val latitude: Any? = null,
-
-	@field:SerializedName("longitude")
-	val longitude: Any? = null
 )

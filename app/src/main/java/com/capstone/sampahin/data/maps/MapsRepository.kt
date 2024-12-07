@@ -4,12 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.capstone.sampahin.data.Result
 import com.capstone.sampahin.data.api.ApiService
-import com.capstone.sampahin.data.register.RegisterRequest
 
 class MapsRepository private constructor(private val apiService: ApiService) {
 
-    private val _mapsResult = MutableLiveData<Result<MapsResponse>>()
-    val mapsResult: LiveData<Result<MapsResponse>> get() = _mapsResult
+    private val _mapsResult = MutableLiveData<Result<MapsResponses>>()
+    val mapsResult: LiveData<Result<MapsResponses>> get() = _mapsResult
 
     suspend fun getMaps(address: String, radius: Int) {
         _mapsResult.postValue(Result.Loading)
