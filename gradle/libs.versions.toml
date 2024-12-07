@@ -30,6 +30,8 @@ tensorflowLiteTaskText = "0.3.0"
 ucrop = "2.2.8"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 playServicesMaps = "19.0.0"
+playServicesLocation = "21.2.0"
+
 
 [libraries]
 androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCamera2" }
@@ -67,6 +69,7 @@ tensorflow-lite-task-text = { module = "org.tensorflow:tensorflow-lite-task-text
 tensorflow-lite-task-vision = { module = "org.tensorflow:tensorflow-lite-task-vision", version.ref = "tensorflowLiteSupport" }
 ucrop = { module = "com.github.yalantis:ucrop", version.ref = "ucrop" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

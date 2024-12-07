@@ -99,14 +99,14 @@
         app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_login_gmail"
+        android:id="@+id/btn_sign_up"
         style="@style/ButtonGreen"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/login_with_gmail"
+        android:text="@string/signUp_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_login_or" />

@@ -7,6 +7,7 @@ import android.view.Window
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.capstone.sampahin.R
 import com.capstone.sampahin.databinding.ActivityRegisterBinding
 import com.capstone.sampahin.data.Result
 import com.capstone.sampahin.ui.login.LoginActivity
@@ -40,37 +41,37 @@ class RegisterActivity : AppCompatActivity() {
         var isValid = true
 
         if (username.isEmpty()) {
-            binding.etlName.error = "Must Fill Name"
+            binding.etlName.error =getString(R.string.must_fill_name)
             isValid = false
         } else {
             binding.etlName.error = null
         }
 
         if (email.isEmpty()) {
-            binding.etlEmail.error = "Must Fill Email"
+            binding.etlEmail.error = getString(R.string.must_fill_email)
             isValid = false
         } else if (!isValidEmail(email)) {
-            binding.etlEmail.error = "Invalid Email Format"
+            binding.etlEmail.error = getString(R.string.email_format)
             isValid = false
         } else {
             binding.etlEmail.error = null
         }
 
         if (password.isEmpty()) {
-            binding.etlPassword.error = "Must Fill Password"
+            binding.etlPassword.error = getString(R.string.must_fill_password)
             isValid = false
         } else if (password.length < 8) {
-            binding.etlPassword.error = "Password must be at least 8 characters"
+            binding.etlPassword.error = getString(R.string.password_min_character)
             isValid = false
         } else {
             binding.etlPassword.error = null
         }
 
         if (passwordConfirm.isEmpty()) {
-            binding.etlPasswordConfirm.error = "Must Confirm Password"
+            binding.etlPasswordConfirm.error = getString(R.string.must_fill_password_confirm)
             isValid = false
         } else if (password != passwordConfirm) {
-            binding.etlPasswordConfirm.error = "Passwords do not match"
+            binding.etlPasswordConfirm.error = getString(R.string.password_not_match)
             isValid = false
         } else {
             binding.etlPasswordConfirm.error = null

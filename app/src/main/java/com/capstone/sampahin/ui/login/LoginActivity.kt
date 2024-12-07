@@ -7,9 +7,11 @@ import android.view.Window
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.capstone.sampahin.R
 import com.capstone.sampahin.data.Result
 import com.capstone.sampahin.databinding.ActivityLoginBinding
 import com.capstone.sampahin.ui.MainActivity
+import com.capstone.sampahin.ui.register.RegisterActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -27,6 +29,11 @@ class LoginActivity : AppCompatActivity() {
         observeLoginResult()
 
         binding.buttonBack.setOnClickListener {
+            finish()
+        }
+        binding.btnSignUp.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
             finish()
         }
     }
@@ -68,20 +75,20 @@ class LoginActivity : AppCompatActivity() {
         var isValid = true
 
         if (email.isEmpty()) {
-            binding.etlEmail.error = "Must Fill Email"
+            binding.etlEmail.error = getString(R.string.must_fill_email)
             isValid = false
         } else if (!isValidEmail(email)) {
-            binding.etlEmail.error = "Invalid Email Format"
+            binding.etlEmail.error = getString(R.string.email_format)
             isValid = false
         } else {
             binding.etlEmail.error = null
         }
 
         if (password.isEmpty()) {
-            binding.etlPassword.error = "Must Fill Password"
+            binding.etlPassword.error = getString(R.string.must_fill_password)
             isValid = false
         } else if (password.length < 8) {
-            binding.etlPassword.error = "Password must be at least 8 characters"
+            binding.etlPassword.error = getString(R.string.password_min_character)
             isValid = false
         } else {
             binding.etlPassword.error = null

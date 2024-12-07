@@ -7,6 +7,7 @@
     <string name="chat">Chat</string>
     <string name="maps">Maps</string>
     <string name="password">Password</string>
+
     <string name="password_min_character">Password must be at least 8 Characters</string>
     <string name="email_format">Wrong Email Format</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -33,7 +34,7 @@
     <string name="login_with_gmail">Login With Gmail</string>
     <string name="gallery">Gallery</string>
     <string name="image_classifier_failed">Image classifier failed to initialize. See error logs for details</string>
-    <string name="empty_image_warning">Silakan masukkan berkas gambar terlebih dahulu.</string>
+    <string name="empty_image_warning">Please select an image first</string>
     <string name="result">Result</string>
     <string name="camera">Camera</string>
     <string name="time">Time</string>
@@ -104,6 +105,16 @@
     <string name="radius">Radius</string>
 
     <string name="must_fill">Please fill the fields</string>
+    <string name="must_fill_name">Please fill the name fields</string>
+    <string name="must_fill_email">Please fill the email fields</string>
+    <string name="must_fill_password">Please fill the password fields</string>
+    <string name="must_fill_password_confirm">Please fill the password confirmation fields</string>
+
+    <string name="maps_fail">No place available in this radius or wrong address</string>
+    <string name="get_my_location">Get My Location</string>
+    <string name="password_not_match">Passwords are not match</string>
+    <string name="location_permission_denied">Permission Denied</string>
+    <string name="signUp_login">Still no account? Sign Up here</string>
 
 
 </resources>
