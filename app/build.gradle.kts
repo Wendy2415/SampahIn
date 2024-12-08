@@ -20,7 +20,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField ("String", "BASE_URL", "\"https://firebase-851479113294.asia-southeast2.run.app/\"")
-        buildConfigField ("String", "ML_BASE_URL", "\"https://backend-ml-2-dot-sampahin.et.r.appspot.com/\"")
+        buildConfigField ("String", "ML_BASE_URL", "\"https://backend-ml-dot-sampahin.et.r.appspot.com/\"")
         buildConfigField ("String", "MAP_BASE_URL", "\"https://places-nearby-851479113294.asia-southeast2.run.app/\"")
 
     }

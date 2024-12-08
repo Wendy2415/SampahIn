@@ -14,6 +14,7 @@ import com.capstone.sampahin.data.TokenPreferences
 import com.capstone.sampahin.databinding.FragmentProfileBinding
 import com.capstone.sampahin.ui.login.LoginActivity
 import com.capstone.sampahin.ui.login.LoginViewModelFactory
+import com.capstone.sampahin.ui.profilemenu.history.HistoryActivity
 import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
@@ -40,6 +41,11 @@ class ProfileFragment : Fragment() {
 
         binding.signOutButton.setOnClickListener {
             logout()
+        }
+
+        binding.historyButton.setOnClickListener {
+            val intent = Intent(activity, HistoryActivity::class.java)
+            startActivity(intent)
         }
 
         lifecycleScope.launch {

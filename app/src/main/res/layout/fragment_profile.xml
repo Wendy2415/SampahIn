@@ -97,12 +97,12 @@
         app:layout_constraintTop_toBottomOf="@+id/settings_button" />
 
     <Button
-        android:id="@+id/change_profile_button"
+        android:id="@+id/history_button"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:background="@drawable/btn_profile"
-        android:drawableLeft="@drawable/baseline_person_24"
-        android:text="@string/change_profile"
+        android:drawableLeft="@drawable/ic_history"
+        android:text="@string/history_scans"
         android:textAlignment="textStart"
         android:drawableRight="@drawable/ic_arrow_right"
         android:textColor="@color/textColorSecondary"
@@ -121,7 +121,7 @@
         android:src="@drawable/line"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/change_profile_button" />
+        app:layout_constraintTop_toBottomOf="@+id/history_button" />
 
     <Button
         android:id="@+id/about_button"
@@ -139,7 +139,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/change_profile_button"
+        app:layout_constraintTop_toBottomOf="@+id/history_button"
         tools:ignore="RtlHardcoded,UnusedAttribute" />
 
     <ImageView

@@ -211,6 +211,7 @@ class ScanFragment : Fragment() {
             "kertas" -> getString(R.string.kertas)
             "plastik" -> getString(R.string.plastik)
             "sisa makanan" -> getString(R.string.sisa_makanan)
+            "bukan sampah" -> getString(R.string.bukan_sampah)
             else -> label
         }
     }
@@ -225,6 +226,7 @@ class ScanFragment : Fragment() {
             "kertas" -> getString(R.string.desc_kertas)
             "plastik" -> getString(R.string.desc_plastik)
             "sisa makanan" -> getString(R.string.desc_sisa_makanan)
+            "bukan sampah" -> getString(R.string.desc_bukan_sampah)
             else -> ""
         }
     }

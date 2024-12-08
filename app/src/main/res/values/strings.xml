@@ -119,6 +119,10 @@
     <string name="address">address</string>
     <string name="title">Title</string>
     <string name="closest_place_recomendation">Closest Place Recomendation</string>
+    <string name="date">date</string>
+    <string name="history_scans">History Scans</string>
+    <string name="bukan_sampah">Not A Trash</string>
+    <string name="desc_bukan_sampah">-</string>
 
 
 </resources>

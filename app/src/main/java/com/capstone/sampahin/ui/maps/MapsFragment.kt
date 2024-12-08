@@ -4,12 +4,10 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.location.Address
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
