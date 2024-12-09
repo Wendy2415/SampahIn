@@ -22,6 +22,17 @@ android {
         buildConfigField ("String", "BASE_URL", "\"https://firebase-851479113294.asia-southeast2.run.app/\"")
         buildConfigField ("String", "ML_BASE_URL", "\"https://backend-ml-dot-sampahin.et.r.appspot.com/\"")
         buildConfigField ("String", "MAP_BASE_URL", "\"https://places-nearby-851479113294.asia-southeast2.run.app/\"")
+        buildConfigField ("String", "CHAT_TOPIC_URL", "\"https://chatbot-be-dot-sampahin.et.r.appspot.com/topics\"")
+        buildConfigField ("String", "CHAT_QUESTION_URL", "\"https://chatbot-be-dot-sampahin.et.r.appspot.com/questions/\"")
+        buildConfigField ("String", "CHAT_ANSWER_URL", "\"https://chatbot-be-dot-sampahin.et.r.appspot.com/answers/\"")
+        externalNativeBuild {
+            cmake {
+                cppFlags += ""
+            }
+        }
+        manifestPlaceholders.putAll(
+            mapOf("MAPS_API_KEY" to (project.findProperty("MAPS_API_KEY") ?: ""))
+        )
 
     }
 
@@ -45,6 +56,12 @@ android {
         viewBinding = true
         mlModelBinding = true
         buildConfig = true
+    }
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+            version = "3.22.1"
+        }
     }
 }
 
