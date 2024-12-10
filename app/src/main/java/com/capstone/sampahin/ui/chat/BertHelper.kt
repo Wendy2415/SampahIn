@@ -51,7 +51,6 @@ class BertHelper(
             setupBertQuestionAnswerer()
         }
 
-        // Inference time: selisih waktu saat sebelum dan setelah mengeksekusi proses inferensi
         var inferenceTime = System.currentTimeMillis()
 
         val answers = bertQuestionAnswerer?.answer(topicsContent, question)

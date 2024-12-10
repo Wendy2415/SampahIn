@@ -7,6 +7,11 @@ import com.google.gson.reflect.TypeToken
 import java.io.IOException
 import java.io.InputStream
 
+/**
+ *  DatasetClient not used anymore in this project cause the data has been moved to the server
+ *  Keep this class for reference local JSON parsing
+ *  */
+
 class DatasetClient(private val context: Context) {
     private companion object {
         private const val TAG = "SampahInApp"

@@ -13,27 +13,28 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.sampahin.R
 import com.capstone.sampahin.data.Message
+import com.capstone.sampahin.data.chat.ChatRequest
 import com.capstone.sampahin.databinding.FragmentChatBinding
 import com.capstone.sampahin.ui.chat.adapter.ChatHistoryAdapter
 import com.capstone.sampahin.ui.chat.adapter.QuestionSuggestionsAdapter
-import org.tensorflow.lite.task.text.qa.QaAnswer
 
 class ChatFragment : Fragment() {
 
     private lateinit var binding: FragmentChatBinding
 
-    private lateinit var bertHelper: BertHelper
-
     private lateinit var chatAdapter: ChatHistoryAdapter
+
+    private val viewModel: ChatViewModel by viewModels()
 
     private val args: ChatFragmentArgs by navArgs()
     private var topicContent: String = ""
-    private var topicSuggestedQuestions: List<String> = emptyList()
+    private var topicSuggestedQuestions: List<ChatRequest> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,27 +51,35 @@ class ChatFragment : Fragment() {
             String.format(getString(R.string.fragment_qa_title), args.topicTitle)
 
 
-        val client = DatasetClient(requireActivity())
-        client.loadJsonData()?.let {
-            topicContent = it.getContents()[args.topicID]
-            topicSuggestedQuestions = it.questions[args.topicID]
-        }
+//        val client = DatasetClient(requireActivity())
+//        client.loadJsonData()?.let {
+//            topicContent = it.getContents()[args.topicID]
+//            topicSuggestedQuestions = it.questions[args.topicID]
+//        }
 
         setButtonSuggestion()
         initChatHistoryRecyclerView()
         initQuestionSuggestionsRecyclerView()
         initBertQAModel()
 
+        viewModel.fetchQuestions()
+        viewModel.questions.observe(viewLifecycleOwner) { questions ->
+            topicSuggestedQuestions = questions
+            initQuestionSuggestionsRecyclerView()
+        }
+
         binding.tietQuestion.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
+            // Only allow clicking send button if there is a question.
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val shouldSendButtonActive: Boolean = s.isNullOrEmpty()
                 binding.ibSend.isClickable = !shouldSendButtonActive
             }
 
             override fun afterTextChanged(s: Editable?) {
+                // no op
             }
 
         })
@@ -86,8 +95,11 @@ class ChatFragment : Fragment() {
 
                     chatAdapter.addMessage(Message(question, true))
 
+
+
                     Handler(Looper.getMainLooper()).post {
-                        bertHelper.getQuestionAnswer(topicContent, question)
+//                        bertHelper.getQuestionAnswer(topicContent, question)
+                        viewModel.fetchAnswers(ChatRequest(question))
                         binding.progressBar.visibility = View.GONE
                     }
 
@@ -168,26 +180,34 @@ class ChatFragment : Fragment() {
 
     private fun initBertQAModel() {
 
-        bertHelper = BertHelper(requireContext(), object : BertHelper.ResultAnswerListener {
-
-            override fun onError(error: String) {
-                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+        viewModel.answers.observe(viewLifecycleOwner) { answer ->
+            answer?.let {
+                chatAdapter.addMessage(Message(it.answer.toString(), false))
+                binding.rvChatHistory.scrollToPosition(chatAdapter.itemCount - 1)
             }
+            Toast.makeText(requireContext(), "Failed to fetch answer", Toast.LENGTH_SHORT).show()
+        }
 
-            override fun onResults(results: List<QaAnswer>?, inferenceTime: Long) {
-                results?.first()?.let {
-                    chatAdapter.addMessage(Message(it.text, false))
-                    binding.rvChatHistory.scrollToPosition(chatAdapter.itemCount - 1)
-                }
-            }
-
-        })
+//        bertHelper = BertHelper(requireContext(), object : BertHelper.ResultAnswerListener {
+//
+//            override fun onError(error: String) {
+//                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+//            }
+//
+//            override fun onResults(results: List<QaAnswer>?, inferenceTime: Long) {
+//                results?.first()?.let {
+//                    chatAdapter.addMessage(Message(it.text, false))
+//                    binding.rvChatHistory.scrollToPosition(chatAdapter.itemCount - 1)
+//                }
+//            }
+//
+//        })
 
     }
 
     private fun setQuestion(position: Int) {
         binding.tietQuestion.setText(
-            topicSuggestedQuestions[position]
+            topicSuggestedQuestions[position].question
         )
     }
 
@@ -196,9 +216,9 @@ class ChatFragment : Fragment() {
         super.onDestroyView()
     }
 
-    override fun onDestroy() {
-        bertHelper.clearBertQuestionAnswerer()
-        super.onDestroy()
-    }
+//    override fun onDestroy() {
+//        bertHelper.clearBertQuestionAnswerer()
+//        super.onDestroy()
+//    }
 
 }

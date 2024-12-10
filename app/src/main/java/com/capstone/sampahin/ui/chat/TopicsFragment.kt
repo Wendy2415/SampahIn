@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.sampahin.R
+import com.capstone.sampahin.data.chat.ChatRequest
 import com.capstone.sampahin.databinding.FragmentTopicsBinding
 import com.capstone.sampahin.ui.chat.adapter.TopicsAdapter
 
@@ -17,7 +19,8 @@ class TopicsFragment : Fragment() {
 
     private var topicsAdapter: TopicsAdapter? = null
 
-    private var topicsTitle = emptyList<String>()
+    private var topicsTitle = emptyList<ChatRequest>()
+    private val viewModel: ChatViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,9 +33,15 @@ class TopicsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val dataSetClient = DatasetClient(requireActivity())
-        dataSetClient.loadJsonData()?.let {
-            topicsTitle = it.getTitles()
+//        val dataSetClient = DatasetClient(requireActivity())
+//        dataSetClient.loadJsonData()?.let {
+//            topicsTitle = it.getTopics()
+//        }
+
+        viewModel.fetchTopics()
+
+        viewModel.topics.observe(viewLifecycleOwner) { topics ->
+            topicsAdapter?.setTopics(topics)
         }
 
         topicsAdapter = TopicsAdapter(topicsTitle, object : TopicsAdapter.OnItemSelected {

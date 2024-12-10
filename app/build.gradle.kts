@@ -22,9 +22,7 @@ android {
         buildConfigField ("String", "BASE_URL", "\"https://firebase-851479113294.asia-southeast2.run.app/\"")
         buildConfigField ("String", "ML_BASE_URL", "\"https://backend-ml-dot-sampahin.et.r.appspot.com/\"")
         buildConfigField ("String", "MAP_BASE_URL", "\"https://places-nearby-851479113294.asia-southeast2.run.app/\"")
-        buildConfigField ("String", "CHAT_TOPIC_URL", "\"https://chatbot-be-dot-sampahin.et.r.appspot.com/topics\"")
-        buildConfigField ("String", "CHAT_QUESTION_URL", "\"https://chatbot-be-dot-sampahin.et.r.appspot.com/questions/\"")
-        buildConfigField ("String", "CHAT_ANSWER_URL", "\"https://chatbot-be-dot-sampahin.et.r.appspot.com/answers/\"")
+        buildConfigField ("String", "CHAT_BASE_URL", "\"https://chatbot-be-dot-sampahin.et.r.appspot.com/\"")
         externalNativeBuild {
             cmake {
                 cppFlags += ""

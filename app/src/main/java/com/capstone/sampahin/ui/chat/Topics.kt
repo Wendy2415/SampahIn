@@ -2,6 +2,11 @@ package com.capstone.sampahin.ui.chat
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ *  Topics data class not used anymore in this project cause the data has been moved to the server
+ *  Keep this data class for reference local JSON parsing
+ */
+
 data class Topics (
     @SerializedName("titles")
     private val titles: List<List<String>>,

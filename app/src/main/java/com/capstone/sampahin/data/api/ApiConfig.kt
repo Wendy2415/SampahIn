@@ -40,18 +40,8 @@ object ApiConfig {
         return retrofit.create(ApiService::class.java)
     }
 
-    fun getTopicApiService(): ChatApiService {
-        val retrofit = createRetrofit(BuildConfig.CHAT_TOPIC_URL)
-        return retrofit.create(ChatApiService::class.java)
-    }
-    
-    fun getQuestionApiService(): ChatApiService {
-        val retrofit = createRetrofit(BuildConfig.CHAT_QUESTION_URL)
-        return retrofit.create(ChatApiService::class.java)
-    }
-
-    fun getAnswerApiService(): ChatApiService {
-        val retrofit = createRetrofit(BuildConfig.CHAT_ANSWER_URL)
+    fun getChatApiService(): ChatApiService {
+        val retrofit = createRetrofit(BuildConfig.CHAT_BASE_URL)
         return retrofit.create(ChatApiService::class.java)
     }
 }

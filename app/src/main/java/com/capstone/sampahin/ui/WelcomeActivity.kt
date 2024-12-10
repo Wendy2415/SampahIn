@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import com.capstone.sampahin.data.TokenPreferences
 import com.capstone.sampahin.databinding.ActivityWelcomeBinding
@@ -22,6 +23,7 @@ class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         window.requestFeature(Window.FEATURE_NO_TITLE)
         supportActionBar?.hide()
 

@@ -1,12 +1,14 @@
 package com.capstone.sampahin.ui.chat.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.capstone.sampahin.data.chat.ChatRequest
 import com.capstone.sampahin.databinding.ItemTopicBinding
 
 class TopicsAdapter(
-    private val topicsTitle: List<String>,
+    private var topicsTitle: List<ChatRequest>,
     private val onItemSelectedCallback: OnItemSelected
 ) : RecyclerView.Adapter<TopicsAdapter.ViewHolder>() {
 
@@ -27,15 +29,21 @@ class TopicsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.binding.tvTopicTitle.text = topicsTitle[position]
+        holder.binding.tvTopicTitle.text = topicsTitle[position].toString()
         holder.itemView.setOnClickListener {
-            onItemSelectedCallback.onItemClicked(position, topicsTitle[position])
+            onItemSelectedCallback.onItemClicked(position, topicsTitle[position].toString())
         }
 
     }
 
     override fun getItemCount(): Int {
         return topicsTitle.size
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setTopics(newTopics: List<ChatRequest>) {
+        topicsTitle = newTopics
+        notifyDataSetChanged()
     }
 
 
