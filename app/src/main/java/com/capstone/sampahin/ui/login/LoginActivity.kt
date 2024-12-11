@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
                 }
                 is Result.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    Toast.makeText(this,"login success", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.login_success), Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)

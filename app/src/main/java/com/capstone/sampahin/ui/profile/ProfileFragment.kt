@@ -2,6 +2,7 @@ package com.capstone.sampahin.ui.profile
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -48,6 +49,10 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.settingsButton.setOnClickListener {
+            startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+        }
+
         lifecycleScope.launch {
             val token = tokenPref.getToken()
             if (token != null) {
@@ -55,7 +60,8 @@ class ProfileFragment : Fragment() {
                 binding.tvUsername.text = user.name
                 binding.tvEmail.text = user.email
             } else {
-                Toast.makeText(requireActivity(), "token not found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(),
+                    getString(R.string.user_not_found), Toast.LENGTH_SHORT).show()
             }
         }
 

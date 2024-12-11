@@ -41,7 +41,7 @@
     <string name="email">Email</string>
     <string name="profile_email">UserEmail@gmail.com</string>
     <string name="profile_name">Username</string>
-    <string name="settings">Settings</string>
+    <string name="language_settings">Language Settings</string>
     <string name="change_profile">Change Profile</string>
     <string name="about">About</string>
     <string name="contact">Contact Us</string>
@@ -62,20 +62,25 @@
     <string name="fragment_qa_title">%s - Bert QA</string>
     <string name="text_home_maps">Find the nearest collector location!</string>
     <string-array name="data_photo">
-        <item>https://static.vecteezy.com/system/resources/previews/011/190/622/original/crumpled-paper-ball-png.png</item>
         <item>https://www.pngall.com/wp-content/uploads/5/Plastic-Bottle-PNG-High-Quality-Image.png</item>
-        <item>https://freepngdesign.com/content/uploads/images/metal-can-6725860182.png</item>
-        <item>https://www.pngmart.com/files/15/Empty-Glass-Water-Bottle-PNG-File.png</item>
         <item>https://www.pngmart.com/files/11/Firewood-Wood-PNG-Clipart.png</item>
+        <item>https://freepngdesign.com/content/uploads/images/metal-can-6725860182.png</item>
+        <item>https://www.pngmart.com/files/10/Pile-Of-Autumn-Leaves-PNG-Photos.png</item>
+        <item>https://static.vecteezy.com/system/resources/previews/011/190/622/original/crumpled-paper-ball-png.png</item>
+        <item>https://www.pngmart.com/files/15/Empty-Glass-Water-Bottle-PNG-File.png</item>
         <item>https://pngimg.com/uploads/box/box_PNG11.png</item>
+        <item>https://static.vecteezy.com/system/resources/previews/033/293/177/non_2x/food-waste-isolated-on-transparent-generative-ai-free-png.png</item>
     </string-array>
     <string-array name="data_name">
-        <item>Paper</item>
         <item>Plastic</item>
-        <item>Metal</item>
-        <item>Glass</item>
         <item>Wood</item>
+        <item>Metal</item>
+        <item>Leaf</item>
+        <item>Paper</item>
+        <item>Glass</item>
         <item>Box</item>
+        <item>Leftover</item>
+
     </string-array>
 
     <string name="besi">Metal</string>
@@ -85,7 +90,7 @@
     <string name="kayu">Wood</string>
     <string name="kertas">Paper</string>
     <string name="plastik">Plastic</string>
-    <string name="sisa_makanan">Food Waste</string>
+    <string name="sisa_makanan">Leftover</string>
     <string name="tv_inference_time_label">%d ms</string>
 
     <string name="desc_besi">Scrap metal refers to metal that has been used and no longer holds utility in its original form. It is typically recycled for use in creating new products such as household items, construction materials, and automotive parts. Recycling metal reduces the need for new mining and saves energy.</string>
@@ -95,7 +100,7 @@
     <string name="desc_kayu">Used wood comes from wood scraps or wood products that are no longer in use. Used wood can be recycled or reused in making furniture or construction materials, reducing the need for cutting down new trees.</string>
     <string name="desc_kertas">Used paper refers to paper that has been used or discarded, which no longer has direct utility in its original form and is typically thrown away or recycled. Used paper can be recycled into various new paper products, reducing deforestation and saving energy.</string>
     <string name="desc_plastik">Used plastic refers to plastic that has been used and is no longer needed. Used plastic can be recycled into various new products, but the process is often more complex due to the variety of plastic types.</string>
-    <string name="desc_sisa_makanan">Food waste is organic material that comes from food that has been consumed or discarded. Food waste can be used for compost or converted into bioenergy products, helping to reduce waste and improve soil fertility.</string>
+    <string name="desc_sisa_makanan">Leftover is organic material that comes from food that has been consumed or discarded. Food waste can be used for compost or converted into bioenergy products, helping to reduce waste and improve soil fertility.</string>
     <string name="result_label">%s %.2f%%</string>
 
     <string name="title_settings">Settings</string>
@@ -124,6 +129,22 @@
     <string name="bukan_sampah">Not A Trash</string>
     <string name="desc_bukan_sampah">-</string>
     <string name="blank">b</string>
+    <string name="question_require">Please enter the question first.</string>
+    <string name="login_success">login success</string>
+    <string name="must_fill_address">must fill address and radius</string>
+    <string name="location_success">Success to get location</string>
+    <string name="must_fill_radius">Must Fill Radius</string>
+    <string name="failed_to_get_location">Failed to get location</string>
+    <string name="user_not_found">user not found</string>
+    <string name="failed_to_start_camera">Failed to start camera</string>
+    <string name="failed_to_take_picture">Failed to take picture</string>
+    <string name="failed_message">Sorry, I can\'t answer your question %1$s</string>
+    <string name="please_enter_the_question_first">Please enter the question first.</string>
+    <string name="initial_chat">Welcome! Feel free to ask %1$s</string>
+    <string name="scan_fragment">Scan Fragment</string>
+    <string name="confirm_exit_message">Do you sure to remove the scan progress?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 
 </resources>

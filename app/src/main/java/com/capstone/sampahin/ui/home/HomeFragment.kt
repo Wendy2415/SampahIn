@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.sampahin.R
 import com.capstone.sampahin.data.Category
@@ -46,7 +48,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.mapLayout.setOnClickListener {
-            navigateToMapFragment()
+            val navController = requireActivity().findNavController(R.id.nav_host_fragment_activity_main)
+            navController.navigate(R.id.navigation_maps)
         }
 
         homeViewModel.isLoading.observe(viewLifecycleOwner) {
@@ -78,13 +81,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun navigateToMapFragment() {
-        val transaction = parentFragmentManager.beginTransaction()
-        val mapFragment = MapsFragment()
-        transaction.replace(R.id.action_navigation_home_to_navigation_maps, mapFragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

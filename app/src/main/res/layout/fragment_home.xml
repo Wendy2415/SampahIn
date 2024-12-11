@@ -7,7 +7,7 @@
     tools:context=".ui.home.HomeFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appBarHome"
+        android:id="@+id/appBars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
         android:src="@drawable/custom_appbar_nav_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarHome" />
+        app:layout_constraintTop_toBottomOf="@+id/appBars" />
 
     <TextView
         android:id="@+id/tv_home1"
@@ -73,7 +73,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarHome" />
+        app:layout_constraintTop_toBottomOf="@id/appBars" />
 
     <TextView
         android:id="@+id/tv_home2"
@@ -128,7 +128,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_category_home" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
         android:id="@+id/map_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -137,25 +137,14 @@
         android:layout_marginBottom="85dp"
         android:clickable="true"
         android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:src="@drawable/maps_home"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_home3">
-
-        <fragment
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/textColorSecondary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        app:layout_constraintTop_toBottomOf="@+id/tv_home3"/>
 
 
 

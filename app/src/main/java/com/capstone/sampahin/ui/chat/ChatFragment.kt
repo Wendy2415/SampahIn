@@ -96,7 +96,8 @@ class ChatFragment : Fragment() {
 
                 hideKeyboard(it)
             } else {
-                Toast.makeText(requireContext(), "Please enter the question first.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.please_enter_the_question_first), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -107,12 +108,17 @@ class ChatFragment : Fragment() {
         viewModel.answers.observe(viewLifecycleOwner) { answer ->
             val sadEmoji = "\uD83D\uDE41"
             answer?.let {
-                chatAdapter.addMessage(Message(it.answers?.joinToString(",") ?:"", false))
-                binding.rvChatHistory.scrollToPosition(chatAdapter.itemCount - 1)
+                if (!it.answers.isNullOrEmpty()) {
+                    chatAdapter.addMessage(Message(it.answers[0], false))
+                    binding.rvChatHistory.scrollToPosition(chatAdapter.itemCount - 1)
+                } else {
+                    chatAdapter.addMessage(Message(getString(R.string.failed_message, sadEmoji), false))
+                }
             } ?: run {
-                chatAdapter.addMessage(Message("Sorry, I can't answer your question $sadEmoji", false))
+                chatAdapter.addMessage(Message(getString(R.string.failed_message, sadEmoji), false))
             }
         }
+
 
         setButtonSuggestion()
     }
@@ -123,7 +129,7 @@ class ChatFragment : Fragment() {
         binding.rvChatHistory.layoutManager = historyLayoutManager
         chatAdapter = ChatHistoryAdapter()
         binding.rvChatHistory.adapter = chatAdapter
-        chatAdapter.addMessage(Message("Welcome! Feel free to ask $smileEmoji", false))
+        chatAdapter.addMessage(Message(getString(R.string.initial_chat, smileEmoji), false))
     }
 
     private fun initQuestionSuggestionsRecyclerView() {

@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -132,12 +133,11 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
                     places?.forEach { place ->
                         place?.location?.let {
                             val latLng = LatLng(it.lat as Double, it.lng as Double)
+                            val markerIcon = resizeDrawableToBitmap(R.drawable.location_icons, 40)
                             map.addMarker(
                                 MarkerOptions().position(latLng).title(place.name)
                                     .snippet(place.address).icon(
-                                        vectorToBitmap(
-                                            R.drawable.icon_map_recycle, Color.parseColor("#006400")
-                                        )
+                                        markerIcon
                                     )
                             )
                             boundsBuilder.include(latLng)
@@ -146,7 +146,11 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
                     }
 
                     if (result.data.mapsResponses.isNullOrEmpty()) {
-                        Toast.makeText(requireContext(), getString(R.string.maps_fail), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.maps_fail),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
                         val bounds = boundsBuilder.build()
                         map.animateCamera(
@@ -199,11 +203,11 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
 
             if (isValid) {
                 hideKeyboard()
-                mapsViewModel.fetchMapsData(address, radius!!) // Aman karena radius sudah divalidasi
+                mapsViewModel.fetchMapsData(address, radius!!)
             } else {
                 Toast.makeText(
                     requireContext(),
-                    "must fill address and radius",
+                    getString(R.string.must_fill_address),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -227,16 +231,23 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
                             val response = "$lat,$lng"
                             mapsViewModel.fetchMapsData(response, radius)
                             Log.d(TAG, "Lat: $lat, Lng: $lng")
-                            Toast.makeText(requireContext(), "Success to get location", Toast.LENGTH_SHORT).show()
-                        }else{
-                            binding.etlRadiusMyLocation.error = "Must Fill Radius"
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.location_success), Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            binding.etlRadiusMyLocation.error = getString(R.string.must_fill_radius)
                         }
                     } else {
-                        Toast.makeText(requireContext(), "Failed to get location", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.failed_to_get_location), Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT)
+                        .show()
                     Log.e(TAG, "Error getting location: ${e.message}")
                 }
         } else {
@@ -249,20 +260,21 @@ class MapsFragment : Fragment(R.layout.fragment_maps), OnMapReadyCallback {
         }
     }
 
+    private fun resizeDrawableToBitmap(drawableRes: Int, dpSize: Int): BitmapDescriptor {
+        val drawable = ContextCompat.getDrawable(requireContext(), drawableRes)
+            ?: return BitmapDescriptorFactory.defaultMarker()
+        val width = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dpSize.toFloat(),
+            resources.displayMetrics
+        ).toInt()
 
-    private fun vectorToBitmap(@DrawableRes id: Int, @ColorInt color: Int): BitmapDescriptor {
-        val vectorDrawable = ResourcesCompat.getDrawable(resources, id, null)
-        if (vectorDrawable == null) {
-            Log.e("BitmapHelper", "Resource not found")
-            return BitmapDescriptorFactory.defaultMarker()
-        }
-        val bitmap = Bitmap.createBitmap(
-            vectorDrawable.intrinsicWidth, vectorDrawable.intrinsicHeight, Bitmap.Config.ARGB_8888
-        )
+        val height = width * 2
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        vectorDrawable.setBounds(0, 0, canvas.width, canvas.height)
-        DrawableCompat.setTint(vectorDrawable, color)
-        vectorDrawable.draw(canvas)
+        drawable.setBounds(0, 0, width, height)
+        drawable.draw(canvas)
+
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 

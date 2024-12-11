@@ -1,6 +1,7 @@
 package com.capstone.sampahin.ui.scan
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -18,6 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import com.bumptech.glide.Glide
 import com.capstone.sampahin.R
 import com.capstone.sampahin.data.api.ApiConfig
 import com.capstone.sampahin.databinding.FragmentScanBinding
@@ -75,8 +78,20 @@ class ScanFragment : Fragment() {
         binding.btnCamera.setOnClickListener { startCameraX() }
         binding.chatButton.setOnClickListener { moveToChat() }
 
+        Glide.with(this)
+            .asGif()
+            .load(R.drawable.recycle_placeholder)
+            .into(binding.previewImageView)
+
         updateUI()
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                showExitConfirmationDialog()
+            }
+        })
     }
+
 
     private fun startGallery() {
         launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
@@ -242,6 +257,20 @@ class ScanFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.progressIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
+    }
+
+    private fun showExitConfirmationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.scan_fragment))
+            .setMessage(getString(R.string.confirm_exit_message))
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                requireActivity().supportFragmentManager.popBackStack()
+            }
+            .setNegativeButton(getString(R.string.no)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
 
