@@ -55,6 +55,9 @@ class ChatFragment : Fragment() {
             topicSuggestedQuestions = questions
             questionAdapter?.submitList(questions)
             if (questions.isNotEmpty()) {
+                if (questionAdapter == null) {
+                    initQuestionSuggestionsRecyclerView()
+                }
                 binding.rvQuestionSuggestions.visibility = View.VISIBLE
                 binding.tvSuggestion.visibility = View.VISIBLE
             } else {
@@ -102,11 +105,12 @@ class ChatFragment : Fragment() {
         }
 
         viewModel.answers.observe(viewLifecycleOwner) { answer ->
+            val sadEmoji = "\uD83D\uDE41"
             answer?.let {
                 chatAdapter.addMessage(Message(it.answers.toString(), false))
                 binding.rvChatHistory.scrollToPosition(chatAdapter.itemCount - 1)
             } ?: run {
-                Toast.makeText(requireContext(), "Failed to fetch answer", Toast.LENGTH_SHORT).show()
+                chatAdapter.addMessage(Message("Sorry, I can't answer your question $sadEmoji", false))
             }
         }
 
@@ -114,11 +118,12 @@ class ChatFragment : Fragment() {
     }
 
     private fun initChatHistoryRecyclerView() {
+        val smileEmoji = "\uD83D\uDE03"
         val historyLayoutManager = LinearLayoutManager(context)
         binding.rvChatHistory.layoutManager = historyLayoutManager
         chatAdapter = ChatHistoryAdapter()
         binding.rvChatHistory.adapter = chatAdapter
-        chatAdapter.addMessage(Message("Welcome! Feel free to ask.", false))
+        chatAdapter.addMessage(Message("Welcome! Feel free to ask $smileEmoji", false))
     }
 
     private fun initQuestionSuggestionsRecyclerView() {

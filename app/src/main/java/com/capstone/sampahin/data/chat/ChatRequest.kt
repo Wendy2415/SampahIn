@@ -9,4 +9,3 @@ data class ChatRequest(
     @field: SerializedName("questions")
     val questions: List<String> = emptyList()
 )
-

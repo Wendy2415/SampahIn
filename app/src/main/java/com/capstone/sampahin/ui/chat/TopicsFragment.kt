@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.capstone.sampahin.R
 import com.capstone.sampahin.databinding.FragmentTopicsBinding
 import com.capstone.sampahin.ui.chat.adapter.TopicsAdapter
 

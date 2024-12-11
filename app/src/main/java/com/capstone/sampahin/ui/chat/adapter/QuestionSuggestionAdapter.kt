@@ -1,5 +1,6 @@
 package com.capstone.sampahin.ui.chat.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +36,7 @@ class QuestionSuggestionsAdapter(
 
     override fun getItemCount(): Int = suggestedQuestions.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun submitList(newQuestions: List<String>) {
         suggestedQuestions = newQuestions
         notifyDataSetChanged()
