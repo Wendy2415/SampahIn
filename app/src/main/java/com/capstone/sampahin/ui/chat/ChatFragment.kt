@@ -107,7 +107,7 @@ class ChatFragment : Fragment() {
         viewModel.answers.observe(viewLifecycleOwner) { answer ->
             val sadEmoji = "\uD83D\uDE41"
             answer?.let {
-                chatAdapter.addMessage(Message(it.answers.toString(), false))
+                chatAdapter.addMessage(Message(it.answers?.joinToString(",") ?:"", false))
                 binding.rvChatHistory.scrollToPosition(chatAdapter.itemCount - 1)
             } ?: run {
                 chatAdapter.addMessage(Message("Sorry, I can't answer your question $sadEmoji", false))
