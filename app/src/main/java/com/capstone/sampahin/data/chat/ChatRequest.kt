@@ -3,9 +3,10 @@ package com.capstone.sampahin.data.chat
 import com.google.gson.annotations.SerializedName
 
 data class ChatRequest(
-    @field: SerializedName("topic")
-    val topic: String,
+    @field:SerializedName("topics")
+    val topics: List<String> = emptyList(),
 
-    @field: SerializedName("question")
-    val question: String? = null
+    @field: SerializedName("questions")
+    val questions: List<String> = emptyList()
 )
+

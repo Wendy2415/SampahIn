@@ -21,9 +21,6 @@
         android:label="@string/chat"
         tools:layout="@layout/fragment_chat" >
         <argument
-            android:name="topicID"
-            app:argType="integer" />
-        <argument
             android:name="topicTitle"
             app:argType="string" />
     </fragment>

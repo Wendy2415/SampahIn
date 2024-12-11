@@ -3,11 +3,10 @@ package com.capstone.sampahin.ui.chat.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone.sampahin.data.chat.ChatRequest
 import com.capstone.sampahin.databinding.ItemQuestionSuggestionBinding
 
 class QuestionSuggestionsAdapter(
-    private val suggestedQuestions: List<ChatRequest>,
+    private var suggestedQuestions: List<String>,
     private val onOptionClickedCallback: OnOptionClicked
 ) : RecyclerView.Adapter<QuestionSuggestionsAdapter.ViewHolder>() {
 
@@ -28,14 +27,16 @@ class QuestionSuggestionsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.binding.tvQuestionSuggestion.text = suggestedQuestions[position]
         holder.itemView.setOnClickListener {
             onOptionClickedCallback.onOptionClicked(position)
         }
-        holder.binding.tvQuestionSuggestion.text = suggestedQuestions[position].toString()
     }
 
-    override fun getItemCount(): Int {
-        return suggestedQuestions.size
-    }
+    override fun getItemCount(): Int = suggestedQuestions.size
 
+    fun submitList(newQuestions: List<String>) {
+        suggestedQuestions = newQuestions
+        notifyDataSetChanged()
+    }
 }

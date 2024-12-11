@@ -11,50 +11,53 @@ import com.capstone.sampahin.data.chat.ChatResponse
 import kotlinx.coroutines.launch
 
 class ChatViewModel : ViewModel() {
-    private val _topics = MutableLiveData<List<ChatRequest>>()
-    val topics: LiveData<List<ChatRequest>> get() = _topics
+    private val _topics = MutableLiveData<List<String>>()
+    val topics: LiveData<List<String>> get() = _topics
 
-    private var selectedTopic: ChatRequest? = null
-
-    private val _questions = MutableLiveData<List<ChatRequest>>()
-    val questions: LiveData<List<ChatRequest>> get() = _questions
+    private val _questions = MutableLiveData<List<String>>()
+    val questions: LiveData<List<String>> get() = _questions
 
     private val _answers = MutableLiveData<ChatResponse?>()
     val answers: LiveData<ChatResponse?> get() = _answers
 
-    // fetch data topics
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
     fun fetchTopics() {
         viewModelScope.launch {
+            _isLoading.value = true
             try {
                 val apiService = ApiConfig.getChatApiService()
-                val topics = apiService.getTopics()
-                _topics.value = topics
+                val response = apiService.getTopics()
+                _topics.value = response.topics
             } catch (e: Exception) {
                 Log.e(TAG, "Error fetching topics: ${e.message}")
                 e.printStackTrace()
                 _topics.value = emptyList()
+            } finally {
+                _isLoading.value = false
             }
         }
     }
 
-    // fetch data questions
-    fun fetchQuestions() {
+    fun fetchQuestionsByTopic(topic: String) {
         viewModelScope.launch {
+            _isLoading.value = true
             try {
                 val apiService = ApiConfig.getChatApiService()
-                val questions = apiService.getQuestions((selectedTopic ?: "").toString())
-                _questions.value = questions
+                val response = apiService.getQuestions(topic)
+                _questions.value = response.questions
             } catch (e: Exception) {
                 Log.e(TAG, "Error fetching questions: ${e.message}")
-                e.printStackTrace()
-                _questions.value = emptyList()
+            } finally {
+                _isLoading.value = false
             }
         }
     }
 
-    // fetch data answers
     fun fetchAnswers(request: ChatRequest) {
         viewModelScope.launch {
+            _isLoading.value = true
             try {
                 val apiService = ApiConfig.getChatApiService()
                 val answers = apiService.sendAnswer(request)
@@ -63,6 +66,8 @@ class ChatViewModel : ViewModel() {
                 Log.e(TAG, "Error fetching answers: ${e.message}")
                 e.printStackTrace()
                 _answers.postValue(null)
+            } finally {
+                _isLoading.value = false
             }
         }
     }

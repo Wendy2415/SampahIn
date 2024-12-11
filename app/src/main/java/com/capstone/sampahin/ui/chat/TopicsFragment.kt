@@ -10,17 +10,17 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.sampahin.R
-import com.capstone.sampahin.data.chat.ChatRequest
 import com.capstone.sampahin.databinding.FragmentTopicsBinding
 import com.capstone.sampahin.ui.chat.adapter.TopicsAdapter
 
 class TopicsFragment : Fragment() {
     private lateinit var binding: FragmentTopicsBinding
-
-    private var topicsAdapter: TopicsAdapter? = null
-
-    private var topicsTitle = emptyList<ChatRequest>()
     private val viewModel: ChatViewModel by viewModels()
+    private val topicsAdapter by lazy {
+        TopicsAdapter { selectedTopic ->
+            startChatScreen(selectedTopic)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,23 +33,13 @@ class TopicsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val dataSetClient = DatasetClient(requireActivity())
-//        dataSetClient.loadJsonData()?.let {
-//            topicsTitle = it.getTopics()
-//        }
+        setupRecyclerView()
+        observeViewModel()
 
         viewModel.fetchTopics()
+    }
 
-        viewModel.topics.observe(viewLifecycleOwner) { topics ->
-            topicsAdapter?.setTopics(topics)
-        }
-
-        topicsAdapter = TopicsAdapter(topicsTitle, object : TopicsAdapter.OnItemSelected {
-            override fun onItemClicked(itemID: Int, itemTitle: String) {
-                startChatScreen(itemID, itemTitle)
-            }
-        })
-
+    private fun setupRecyclerView() {
         val linearLayoutManager = LinearLayoutManager(requireContext())
         val decoration = DividerItemDecoration(
             binding.rvTopics.context,
@@ -61,16 +51,20 @@ class TopicsFragment : Fragment() {
             adapter = topicsAdapter
             addItemDecoration(decoration)
         }
-
     }
 
-    private fun startChatScreen(itemID: Int, itemTitle: String) {
-        val action = TopicsFragmentDirections.actionTopicsFragmentToChatFragment(
-            itemID,
-            itemTitle
-        )
-        Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main)
-            .navigate(action)
+    private fun observeViewModel() {
+        viewModel.topics.observe(viewLifecycleOwner) { topics ->
+            topicsAdapter.submitList(topics)
+        }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
     }
 
+    private fun startChatScreen(topicTitle: String) {
+        val action = TopicsFragmentDirections.actionTopicsFragmentToChatFragment(topicTitle)
+        Navigation.findNavController(requireView()).navigate(action)
+    }
 }

@@ -9,13 +9,13 @@ import retrofit2.http.Path
 
 interface ChatApiService {
     @GET("topics")
-    suspend fun getTopics(): List<ChatRequest>
+    suspend fun getTopics(): ChatRequest
 
     @GET("questions/{selectedTopic}")
     suspend fun getQuestions(
         @Path("selectedTopic")
         selectedTopic: String
-    ): List<ChatRequest>
+    ): ChatRequest
 
     @POST("answer")
     suspend fun sendAnswer(

@@ -1,22 +1,22 @@
 package com.capstone.sampahin.ui.chat.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone.sampahin.data.chat.ChatRequest
 import com.capstone.sampahin.databinding.ItemTopicBinding
 
 class TopicsAdapter(
-    private var topicsTitle: List<ChatRequest>,
-    private val onItemSelectedCallback: OnItemSelected
-) : RecyclerView.Adapter<TopicsAdapter.ViewHolder>() {
+    private val onItemSelected: (String) -> Unit
+) : ListAdapter<String, TopicsAdapter.ViewHolder>(DIFF_CALLBACK) {
 
-    interface OnItemSelected {
-        fun onItemClicked(itemID: Int, itemTitle: String)
+    inner class ViewHolder(val binding: ItemTopicBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(topic: String) {
+            binding.tvTopicTitle.text = topic
+            binding.root.setOnClickListener { onItemSelected(topic) }
+        }
     }
-
-    inner class ViewHolder(val binding: ItemTopicBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemTopicBinding.inflate(
@@ -28,23 +28,26 @@ class TopicsAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val topics = getItem(position)
+        holder.bind(topics)
+    }
 
-        holder.binding.tvTopicTitle.text = topicsTitle[position].toString()
-        holder.itemView.setOnClickListener {
-            onItemSelectedCallback.onItemClicked(position, topicsTitle[position].toString())
+    companion object {
+
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<String>() {
+            override fun areItemsTheSame(
+                oldItem: String,
+                newItem: String
+            ): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(
+                oldItem: String,
+                newItem: String
+            ): Boolean {
+                return oldItem == newItem
+            }
         }
-
     }
-
-    override fun getItemCount(): Int {
-        return topicsTitle.size
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun setTopics(newTopics: List<ChatRequest>) {
-        topicsTitle = newTopics
-        notifyDataSetChanged()
-    }
-
-
 }

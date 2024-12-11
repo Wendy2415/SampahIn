@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,14 +28,12 @@ import com.capstone.sampahin.ui.chat.adapter.QuestionSuggestionsAdapter
 class ChatFragment : Fragment() {
 
     private lateinit var binding: FragmentChatBinding
-
     private lateinit var chatAdapter: ChatHistoryAdapter
-
+    private var questionAdapter: QuestionSuggestionsAdapter? = null
     private val viewModel: ChatViewModel by viewModels()
-
     private val args: ChatFragmentArgs by navArgs()
-    private var topicContent: String = ""
-    private var topicSuggestedQuestions: List<ChatRequest> = emptyList()
+
+    private var topicSuggestedQuestions: List<String> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,80 +49,102 @@ class ChatFragment : Fragment() {
         (requireActivity() as AppCompatActivity).supportActionBar?.title =
             String.format(getString(R.string.fragment_qa_title), args.topicTitle)
 
+        viewModel.fetchQuestionsByTopic(args.topicTitle)
 
-//        val client = DatasetClient(requireActivity())
-//        client.loadJsonData()?.let {
-//            topicContent = it.getContents()[args.topicID]
-//            topicSuggestedQuestions = it.questions[args.topicID]
-//        }
-
-        setButtonSuggestion()
-        initChatHistoryRecyclerView()
-        initQuestionSuggestionsRecyclerView()
-        initBertQAModel()
-
-        viewModel.fetchQuestions()
         viewModel.questions.observe(viewLifecycleOwner) { questions ->
             topicSuggestedQuestions = questions
-            initQuestionSuggestionsRecyclerView()
+            questionAdapter?.submitList(questions)
+            if (questions.isNotEmpty()) {
+                binding.rvQuestionSuggestions.visibility = View.VISIBLE
+                binding.tvSuggestion.visibility = View.VISIBLE
+            } else {
+                Log.d("ChatFragment", "No questions found for topic: ${args.topicTitle}")
+                binding.rvQuestionSuggestions.visibility = View.GONE
+                binding.tvSuggestion.visibility = View.GONE
+            }
         }
 
+
+        initChatHistoryRecyclerView()
+        initQuestionSuggestionsRecyclerView()
+
         binding.tietQuestion.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            // Only allow clicking send button if there is a question.
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val shouldSendButtonActive: Boolean = s.isNullOrEmpty()
-                binding.ibSend.isClickable = !shouldSendButtonActive
+                binding.ibSend.isClickable = !s.isNullOrEmpty()
             }
-
-            override fun afterTextChanged(s: Editable?) {
-                // no op
-            }
-
+            override fun afterTextChanged(s: Editable?) {}
         })
 
         binding.ibSend.setOnClickListener {
-            if (it.isClickable && (binding.tietQuestion.text?.isNotEmpty() == true)) {
-                with(binding.tietQuestion) {
+            if (it.isClickable && binding.tietQuestion.text?.isNotEmpty() == true) {
+                val question = binding.tietQuestion.text.toString()
+                binding.tietQuestion.text?.clear()
 
-                    binding.progressBar.visibility = View.VISIBLE
+                chatAdapter.addMessage(Message(question, true))
 
-                    val question = this.text.toString()
-                    this.text?.clear()
+                binding.progressBar.visibility = View.VISIBLE
 
-                    chatAdapter.addMessage(Message(question, true))
-
-
-
-                    Handler(Looper.getMainLooper()).post {
-//                        bertHelper.getQuestionAnswer(topicContent, question)
-                        viewModel.fetchAnswers(ChatRequest(question))
-                        binding.progressBar.visibility = View.GONE
-                    }
-
+                Handler(Looper.getMainLooper()).post {
+                    val topic = args.topicTitle
+                    viewModel.fetchAnswers(ChatRequest(listOf(topic), listOf(question)))
+                    binding.progressBar.visibility = View.GONE
                 }
+
+                hideKeyboard(it)
             } else {
-                Toast.makeText(
-                    requireContext(),
-                    "Please enter the question first.",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(requireContext(), "Please enter the question first.", Toast.LENGTH_SHORT).show()
             }
-
-            val imm = requireContext().getSystemService(
-                Context.INPUT_METHOD_SERVICE
-            ) as InputMethodManager
-            imm.hideSoftInputFromWindow(it.windowToken, 0)
-
         }
 
-        binding.buttonBack.setOnClickListener{
+        binding.buttonBack.setOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
+        viewModel.answers.observe(viewLifecycleOwner) { answer ->
+            answer?.let {
+                chatAdapter.addMessage(Message(it.answers.toString(), false))
+                binding.rvChatHistory.scrollToPosition(chatAdapter.itemCount - 1)
+            } ?: run {
+                Toast.makeText(requireContext(), "Failed to fetch answer", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        setButtonSuggestion()
     }
+
+    private fun initChatHistoryRecyclerView() {
+        val historyLayoutManager = LinearLayoutManager(context)
+        binding.rvChatHistory.layoutManager = historyLayoutManager
+        chatAdapter = ChatHistoryAdapter()
+        binding.rvChatHistory.adapter = chatAdapter
+        chatAdapter.addMessage(Message("Welcome! Feel free to ask.", false))
+    }
+
+    private fun initQuestionSuggestionsRecyclerView() {
+        if (topicSuggestedQuestions.isNotEmpty()) {
+            val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+
+            questionAdapter = QuestionSuggestionsAdapter(
+                topicSuggestedQuestions,
+                object : QuestionSuggestionsAdapter.OnOptionClicked {
+                    override fun onOptionClicked(optionID: Int) {
+                        setQuestion(optionID)
+                    }
+                }
+            )
+
+            binding.rvQuestionSuggestions.apply {
+                adapter = questionAdapter
+                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                addItemDecoration(decoration)
+            }
+        } else {
+            binding.tvSuggestion.visibility = View.GONE
+            binding.rvQuestionSuggestions.visibility = View.GONE
+        }
+    }
+
 
     private fun setButtonSuggestion() {
         val buttonSuggestion = binding.buttonSuggestion
@@ -144,81 +165,17 @@ class ChatFragment : Fragment() {
         }
     }
 
-    private fun initChatHistoryRecyclerView() {
-        val historyLayoutManager = LinearLayoutManager(context)
-        binding.rvChatHistory.layoutManager = historyLayoutManager
-
-        chatAdapter = ChatHistoryAdapter()
-        binding.rvChatHistory.adapter = chatAdapter
-
-        chatAdapter.addMessage(Message(topicContent, false))
-    }
-
-    private fun initQuestionSuggestionsRecyclerView() {
-
-        if (topicSuggestedQuestions.isNotEmpty()) {
-            val decoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
-            with(binding.rvQuestionSuggestions) {
-                adapter = QuestionSuggestionsAdapter(
-                    topicSuggestedQuestions,
-                    object : QuestionSuggestionsAdapter.OnOptionClicked {
-                        override fun onOptionClicked(optionID: Int) {
-                            setQuestion(optionID)
-                        }
-
-                    })
-                layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                addItemDecoration(decoration)
-            }
-        } else {
-            binding.tvSuggestion.visibility = View.GONE
-            binding.rvQuestionSuggestions.visibility = View.GONE
-        }
-
-    }
-
-    private fun initBertQAModel() {
-
-        viewModel.answers.observe(viewLifecycleOwner) { answer ->
-            answer?.let {
-                chatAdapter.addMessage(Message(it.answer.toString(), false))
-                binding.rvChatHistory.scrollToPosition(chatAdapter.itemCount - 1)
-            }
-            Toast.makeText(requireContext(), "Failed to fetch answer", Toast.LENGTH_SHORT).show()
-        }
-
-//        bertHelper = BertHelper(requireContext(), object : BertHelper.ResultAnswerListener {
-//
-//            override fun onError(error: String) {
-//                Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
-//            }
-//
-//            override fun onResults(results: List<QaAnswer>?, inferenceTime: Long) {
-//                results?.first()?.let {
-//                    chatAdapter.addMessage(Message(it.text, false))
-//                    binding.rvChatHistory.scrollToPosition(chatAdapter.itemCount - 1)
-//                }
-//            }
-//
-//        })
-
-    }
-
     private fun setQuestion(position: Int) {
-        binding.tietQuestion.setText(
-            topicSuggestedQuestions[position].question
-        )
+        binding.tietQuestion.setText(topicSuggestedQuestions[position])
+    }
+
+    private fun hideKeyboard(view: View) {
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     override fun onDestroyView() {
         binding.tietQuestion.addTextChangedListener(null)
         super.onDestroyView()
     }
-
-//    override fun onDestroy() {
-//        bertHelper.clearBertQuestionAnswerer()
-//        super.onDestroy()
-//    }
-
 }
