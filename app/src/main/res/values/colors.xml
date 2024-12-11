@@ -3,7 +3,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primaryColor">#59B831</color>
     <color name="secondaryColor">#2F6C0C</color>
-    <color name="backgroundColor">#FDFCE8</color>
+    <color name="backgroundColor">#FEFDF1</color>
     <color name="bottomBarActiveColor">#66CC33</color>
     <color name="bottomBarInactiveColor">#B0B0B0</color>
     <color name="textColor">#000000</color>
