@@ -24,8 +24,15 @@
         android:theme="@style/Theme.SampahIn"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".ui.WelcomeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
+        <activity
             android:name=".ui.profilemenu.history.HistoryActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -68,7 +75,7 @@
             android:screenOrientation="portrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
         <activity
-            android:name=".ui.WelcomeActivity"
+            android:name=".ui.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">

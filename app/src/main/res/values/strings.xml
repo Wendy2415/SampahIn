@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SampahIn</string>
+    <string name="app_name">Sampah.In</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="chat">Chat</string>
     <string name="maps">Maps</string>
     <string name="password">Password</string>
@@ -145,6 +143,8 @@
     <string name="confirm_exit_message">Do you sure to remove the scan progress?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="splash_title">Sampah.</string>
+    <string name="splash_title2">In</string>
 
 
 </resources>
