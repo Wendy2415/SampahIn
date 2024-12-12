@@ -49,6 +49,15 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.aboutButton.setOnClickListener {
+            showAboutUsDialog()
+        }
+
+        binding.contactButton.setOnClickListener {
+            showContactDialog()
+        }
+
+
         binding.settingsButton.setOnClickListener {
             startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
         }
@@ -67,13 +76,46 @@ class ProfileFragment : Fragment() {
 
     }
 
+
     private fun logout() {
-        tokenPref.clearToken()
-        Toast.makeText(requireActivity(), getString(R.string.logout_success), Toast.LENGTH_SHORT)
-            .show()
-        val intent = Intent(activity, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
+        val builder = android.app.AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.sign_out))
+        builder.setMessage(getString(R.string.logout_confirmation))
+
+        builder.setPositiveButton(getString(R.string.yes)) { _, _ ->
+            tokenPref.clearToken()
+            Toast.makeText(requireActivity(), getString(R.string.logout_success), Toast.LENGTH_SHORT).show()
+            val intent = Intent(activity, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+
+        builder.setNegativeButton(getString(R.string.no)) { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        builder.create().show()
+    }
+
+
+    private fun showAboutUsDialog() {
+        val builder = android.app.AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.about_us))
+        builder.setMessage(getString(R.string.about_us_description))
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.create().show()
+    }
+
+    private fun showContactDialog() {
+        val builder = android.app.AlertDialog.Builder(requireContext())
+        builder.setTitle(getString(R.string.contact))
+        builder.setMessage(getString(R.string.contact_description))
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.create().show()
     }
 
 }

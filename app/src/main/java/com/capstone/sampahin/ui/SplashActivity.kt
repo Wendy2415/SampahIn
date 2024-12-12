@@ -8,13 +8,16 @@ import android.view.Window
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.capstone.sampahin.R
+import com.capstone.sampahin.data.TokenPreferences
 import com.capstone.sampahin.databinding.ActivitySplashBinding
 import kotlinx.coroutines.*
 
 @Suppress("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
+    private lateinit var tokenPref : TokenPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +36,8 @@ class SplashActivity : AppCompatActivity() {
 
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        tokenPref = TokenPreferences(this)
 
         startSplashSequence()
     }
@@ -60,7 +65,17 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun navigateToMainActivity() {
-        startActivity(Intent(this, MainActivity::class.java))
+        lifecycleScope.launch {
+            if (!tokenPref.getToken().isNullOrEmpty()) {
+                val intent = Intent(this@SplashActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }else{
+                val intent = Intent(this@SplashActivity, WelcomeActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
         finish()
     }
 }

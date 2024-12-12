@@ -8,7 +8,6 @@
 
     <string name="password_min_character">Password must be at least 8 Characters</string>
     <string name="email_format">Wrong Email Format</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="scan">Scan</string>
     <string name="profile">Profile</string>
     <string name="create_an_account">Create an account</string>
@@ -21,26 +20,17 @@
     <string name="hint_email">Email</string>
     <string name="register">Register</string>
     <string name="or">or</string>
-    <string name="sign_up_with_gmail">Sign Up with Gmail</string>
-    <string name="back_button"><![CDATA[< Back]]></string>
-    <string name="male">Male</string>
-    <string name="female">Female</string>
     <string name="hint_password">Enter Password</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="forget_password">Forget Password?</string>
     <string name="sign_up">Sign Up</string>
-    <string name="login_with_gmail">Login With Gmail</string>
     <string name="gallery">Gallery</string>
-    <string name="image_classifier_failed">Image classifier failed to initialize. See error logs for details</string>
     <string name="empty_image_warning">Please select an image first</string>
     <string name="result">Result</string>
     <string name="camera">Camera</string>
-    <string name="time">Time</string>
     <string name="email">Email</string>
     <string name="profile_email">UserEmail@gmail.com</string>
     <string name="profile_name">Username</string>
     <string name="language_settings">Language Settings</string>
-    <string name="change_profile">Change Profile</string>
     <string name="about">About</string>
     <string name="contact">Contact Us</string>
     <string name="sign_out">Sign Out</string>
@@ -48,11 +38,8 @@
     <string name="hello_user">Hello, User!</string>
     <string name="lets_recycle">Let\'s Recycle</string>
     <string name="category">Category</string>
-    <string name="points">Points</string>
-    <string name="hint_message">Message Sammy…</string>
     <string name="appbar_sammy">Sammy</string>
     <string name="back">Back</string>
-    <string name="send">Send</string>
     <string name="tv_suggestion_label">You may want to ask:</string>
     <string name="ib_send_label">Send Button</string>
     <string name="tv_pick_topic_label">Choose a topic.</string>
@@ -89,7 +76,6 @@
     <string name="kertas">Paper</string>
     <string name="plastik">Plastic</string>
     <string name="sisa_makanan">Leftover</string>
-    <string name="tv_inference_time_label">%d ms</string>
 
     <string name="desc_besi">Scrap metal refers to metal that has been used and no longer holds utility in its original form. It is typically recycled for use in creating new products such as household items, construction materials, and automotive parts. Recycling metal reduces the need for new mining and saves energy.</string>
     <string name="desc_daun">Used leaves refer to fallen or cut plant leaves, typically discarded or used as compost. Dried leaves can be recycled into compost, which is useful for farming and garden management.</string>
@@ -101,9 +87,6 @@
     <string name="desc_sisa_makanan">Leftover is organic material that comes from food that has been consumed or discarded. Food waste can be used for compost or converted into bioenergy products, helping to reduce waste and improve soil fertility.</string>
     <string name="result_label">%s %.2f%%</string>
 
-    <string name="title_settings">Settings</string>
-    <string name="dark_mode">Dark Mode</string>
-    <string name="enable_dark_mode">Enable dark mode</string>
     <string name="add_address">Input Address</string>
     <string name="radius">Radius (meters)</string>
 
@@ -119,7 +102,6 @@
     <string name="location_permission_denied">Permission Denied</string>
     <string name="signUp_login">Still no account? Sign Up here</string>
     <string name="chat_scan">Have a question? Ask here!</string>
-    <string name="address">address</string>
     <string name="title">Title</string>
     <string name="closest_place_recomendation">Closest Place Recomendation</string>
     <string name="date">date</string>
@@ -127,7 +109,6 @@
     <string name="bukan_sampah">Not A Trash</string>
     <string name="desc_bukan_sampah">-</string>
     <string name="blank">b</string>
-    <string name="question_require">Please enter the question first.</string>
     <string name="login_success">login success</string>
     <string name="must_fill_address">must fill address and radius</string>
     <string name="location_success">Success to get location</string>
@@ -140,11 +121,15 @@
     <string name="please_enter_the_question_first">Please enter the question first.</string>
     <string name="initial_chat">Welcome! Feel free to ask %1$s</string>
     <string name="scan_fragment">Scan Fragment</string>
-    <string name="confirm_exit_message">Do you sure to remove the scan progress?</string>
+    <string name="confirm_exit_message">Are you sure to remove the scan progress?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="splash_title">Sampah.</string>
     <string name="splash_title2">In</string>
+    <string name="about_us">About Us</string>
+    <string name="about_us_description">This App was made from our teams : \n\nM.Reihan Alif AD\nRizki Putra Ramadhan\nLaura Nur Meilindy\nFarhan Radhi Zuhri\nIka Widiyanti\nIffah Karimah\nWendy</string>
+    <string name="contact_description">"Email : CapstoneTeam@gmail.com \nPhone : +62 8123456788"</string>
+    <string name="logout_confirmation">Are You sure to sign out?</string>
 
 
 </resources>
